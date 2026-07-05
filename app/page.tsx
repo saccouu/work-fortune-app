@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import { FORTUNE_DATA } from '../data/fortuneData';
-import { AD_BANNERS } from '../data/adBanners';
+import { FORTUNE_DATA } from '../src/data/fortuneData';
+import { AD_BANNERS } from '../src/data/adBanners';
 
 const CHARACTERS = [
   {
