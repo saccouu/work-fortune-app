@@ -1,0 +1,1 @@
+link: 'link: 'https://example.com/your-affiliate-link-1',',
