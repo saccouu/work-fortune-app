@@ -98,7 +98,7 @@ export default function Home() {
       {status === 'input' && (
         <div className="w-full max-w-md space-y-6">
           <h1 className="text-xl font-bold text-center text-pink-400">
-            あなた恋愛キャラと恋愛占い
+            あなたの恋愛キャラと運命を占う
           </h1>
           <label className="text-sm text-pink-300 font-medium block">
             生年月日
@@ -181,7 +181,7 @@ export default function Home() {
             onClick={startDiagnosis}
             className="w-full py-4 bg-gradient-to-r from-pink-600 to-purple-600 rounded-2xl font-bold text-lg shadow-lg"
           >
-            恋愛運を占う
+            占いスタート
           </button>
         </div>
       )}
