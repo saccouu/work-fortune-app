@@ -8,7 +8,7 @@ export const AD_BANNERS = [
     alt: 'ココナラ',
   },
   {
-    imageSrc: '/ads/ブbanner2.png',
+    imageSrc: '/ads/banner2.png',
     link: 'https://example.com/your-affiliate-link-2', // ← 決まったら書き換える
     alt: 'ブリランテ',
   },
