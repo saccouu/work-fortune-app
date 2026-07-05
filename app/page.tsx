@@ -209,7 +209,7 @@ export default function Home() {
           </div>
           <div className="bg-[#2d2448] p-6 rounded-2xl border border-pink-500/30 text-left">
             <h3 className="text-center text-pink-300 font-bold mb-4">
-              恋愛診断結果
+              占い結果
             </h3>
             <p className="text-sm text-gray-200 leading-relaxed">
               {result.text}
