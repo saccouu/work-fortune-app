@@ -23,6 +23,10 @@ function AdEmbed({ html }: { html: string }) {
       Array.from(oldScript.attributes).forEach((attr) => {
         newScript.setAttribute(attr.name, attr.value);
       });
+      // 元のコードに書かれた順番通りに実行させるための設定
+      // (これがないと、外部ファイルの読み込みが後回しになり、
+      //  まだ準備が整う前に次のscriptが動いてエラーになることがある)
+      newScript.async = false;
       newScript.textContent = oldScript.textContent;
       oldScript.parentNode?.replaceChild(newScript, oldScript);
     });
