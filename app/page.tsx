@@ -253,18 +253,27 @@ export default function Home() {
                 <p className="text-xs text-pink-300 font-bold mb-2">
                   {banner.label}
                 </p>
-                <a
-                  href={banner.link}
-                  target="_blank"
-                  rel="noopener noreferrer sponsored"
-                  className="block rounded-xl overflow-hidden"
-                >
-                  <img
-                    src={banner.imageSrc}
-                    alt={banner.alt}
-                    className="w-full h-auto rounded-xl"
+                {banner.htmlCode ? (
+                  // A8.netなどが発行した「そのまま貼るコード」を、
+                  // 一切書き換えずにそのまま表示するためのモードです
+                  <div
+                    className="flex justify-center overflow-hidden rounded-xl"
+                    dangerouslySetInnerHTML={{ __html: banner.htmlCode }}
                   />
-                </a>
+                ) : (
+                  <a
+                    href={banner.link}
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    className="block rounded-xl overflow-hidden"
+                  >
+                    <img
+                      src={banner.imageSrc}
+                      alt={banner.alt}
+                      className="w-full h-auto rounded-xl"
+                    />
+                  </a>
+                )}
               </div>
             ))}
           </div>
