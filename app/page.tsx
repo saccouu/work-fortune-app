@@ -1,7 +1,35 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { FORTUNE_DATA } from '../src/data/fortuneData';
 import { AD_BANNERS } from '../src/data/adBanners';
+
+// A8.netなど、<script>タグを含む「スクリプト実行型」の広告コードを
+// 正しく動かすための専用コンポーネントです。
+// (Reactは通常、innerHTML経由で挿入されたscriptタグを実行しないため、
+//  scriptタグだけを作り直してDOMに追加し直しています)
+function AdEmbed({ html }: { html: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    container.innerHTML = html;
+
+    // 挿入したHTMLの中にある<script>タグを探して、実行されるように作り直す
+    const oldScripts = Array.from(container.querySelectorAll('script'));
+    oldScripts.forEach((oldScript) => {
+      const newScript = document.createElement('script');
+      Array.from(oldScript.attributes).forEach((attr) => {
+        newScript.setAttribute(attr.name, attr.value);
+      });
+      newScript.textContent = oldScript.textContent;
+      oldScript.parentNode?.replaceChild(newScript, oldScript);
+    });
+  }, [html]);
+
+  return <div ref={containerRef} className="flex justify-center" />;
+}
 
 const CHARACTERS = [
   {
@@ -255,11 +283,8 @@ export default function Home() {
                 </p>
                 {banner.htmlCode ? (
                   // A8.netなどが発行した「そのまま貼るコード」を、
-                  // 一切書き換えずにそのまま表示するためのモードです
-                  <div
-                    className="flex justify-center overflow-hidden rounded-xl"
-                    dangerouslySetInnerHTML={{ __html: banner.htmlCode }}
-                  />
+                  // scriptタグも含めて正しく実行するためのコンポーネントです
+                  <AdEmbed html={banner.htmlCode} />
                 ) : (
                   <a
                     href={banner.link}
