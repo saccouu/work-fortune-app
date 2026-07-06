@@ -261,7 +261,7 @@ export default function Home() {
           <div className="bg-[#2d2448] p-6 rounded-2xl border border-pink-500/30">
             <p className="text-sm mb-1">💫 {displayName}の恋愛キャラ</p>
             <h2 className="text-xl font-bold text-pink-400">
-              {result.char.emoji} 「{result.char.name}」
+              {result.char.emoji} {result.char.name}
             </h2>
             <p className="text-sm text-gray-400 mt-2 italic">
               {result.char.desc}
