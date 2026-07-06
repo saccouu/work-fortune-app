@@ -146,7 +146,7 @@ export default function Home() {
         <div className="w-full max-w-md space-y-6">
           <div className="bg-[#2d2448] p-4 rounded-2xl border border-pink-500/30">
             <h1 className="text-xl font-bold text-center text-pink-400">
-              🔮 恋愛キャラ診断と恋愛占い
+              🔮 恋愛キャラ診断と恋愛診断
             </h1>
           </div>
           <label className="text-sm text-pink-300 font-medium block">
@@ -242,7 +242,7 @@ export default function Home() {
             onClick={startDiagnosis}
             className="w-full py-4 bg-gradient-to-r from-pink-600 to-purple-600 rounded-2xl font-bold text-lg shadow-lg"
           >
-            ✨ 占いスタート ✨
+            ✨ 診断スタート ✨
           </button>
         </div>
       )}
@@ -269,7 +269,7 @@ export default function Home() {
           </div>
           <div className="bg-[#2d2448] p-6 rounded-2xl border border-pink-500/30 text-left">
             <h3 className="text-center text-pink-300 font-bold mb-4 text-xl">
-              💬 占い結果
+              💬 恋愛診断結果
             </h3>
             <p className="text-sm text-gray-200 leading-relaxed">
               {result.text}
