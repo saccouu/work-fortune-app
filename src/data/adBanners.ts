@@ -14,7 +14,7 @@ export const AD_BANNERS = [
     htmlCode: `<a href="https://px.a8.net/svt/ejp?a8mat=3Z4WIB+45GOHE+2PEO+HUSFL&a8ejpredirect=https%3A%2F%2Fcoconala.com%2Fcategories%2F3%3Fservice_kind%3D1" rel="nofollow">
 <img border="0" alt="" src="https://www.bbauranai.jp/ads/banner1.png"></a>
 <img border="0" width="1" height="1" src="https://www16.a8.net/0.gif?a8mat=3Z4WIB+45GOHE+2PEO+HUSFL" alt="">`,
-    label: 'あなたにおすすめ',
+    label: 'あなたにおすすめの場所はここよ',
   },
   // 2つ目以降を追加する場合は、それぞれ違うidを付けてください（例）
   // {
