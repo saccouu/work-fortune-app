@@ -160,7 +160,7 @@ export default function Home() {
               🔮 恋愛迷子のための恋愛占い
             </h1>
             <p className="text-xs text-pink-300 text-center mt-1">
-              恋愛キャラ診断付き
+              おまけ：恋愛キャラ診断付き
             </p>
           </div>
           <label className="text-sm text-pink-300 font-medium block">
