@@ -157,8 +157,11 @@ export default function Home() {
         <div className="w-full max-w-md space-y-6">
           <div className="bg-[#2d2448] p-4 rounded-2xl border border-pink-500/30">
             <h1 className="text-xl font-bold text-center text-pink-400">
-              🔮 あなた恋愛キャラと恋愛占い
+              🔮 恋愛迷子のための恋愛占い
             </h1>
+            <p className="text-xs text-pink-300 text-center mt-1">
+              恋愛キャラ診断付き
+            </p>
           </div>
           <label className="text-sm text-pink-300 font-medium block">
             😊 お名前（ニックネームでもOK・空欄でも占えます）
