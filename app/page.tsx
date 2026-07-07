@@ -144,7 +144,7 @@ export default function Home() {
     const text =
       FORTUNE_DATA[selectedChar.name]?.[formData.loveStatus]?.[
         formData.interest
-      ] || '鑑定結果の準備中です...';
+      ] || 'ただいま診断中です...';
 
     setResult({ char: selectedChar, text });
     setStatus('loading');
@@ -157,10 +157,10 @@ export default function Home() {
         <div className="w-full max-w-md space-y-6">
           <div className="bg-[#2d2448] p-4 rounded-2xl border border-pink-500/30">
             <h1 className="text-xl font-bold text-center text-pink-400">
-              🔮 恋愛迷子のための恋愛占い
+              🔮 恋愛迷子のための恋愛診断
             </h1>
             <p className="text-base text-pink-300 text-center mt-1">
-              恋愛キャラ診断付き
+              あなたの恋愛キャラも占うわよ
             </p>
           </div>
           <label className="text-sm text-pink-300 font-medium block">
