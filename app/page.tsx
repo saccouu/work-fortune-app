@@ -2,6 +2,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { FORTUNE_DATA } from '../src/data/fortuneData';
 import { AD_BANNERS } from '../src/data/adBanners';
+import { BANNER_RULES, DEFAULT_BANNER_IDS } from '../src/data/adBannerRules';
+import { ADVICE_BY_STATUS } from '../src/data/advice';
 
 // A8.netなど、<script>タグを含む「スクリプト実行型」の広告コードを
 // 正しく動かすための専用コンポーネントです。
@@ -111,6 +113,15 @@ export default function Home() {
   const [result, setResult] = useState({ char: CHARACTERS[0], text: '' });
   const displayName = formData.name.trim() ? `${formData.name.trim()}さん` : 'あなた';
 
+  // 恋愛ステータス×気になっていることの組み合わせに応じて、
+  // 表示するバナーだけを絞り込みます
+  const bannerIdsToShow =
+    BANNER_RULES[formData.loveStatus]?.[formData.interest] ??
+    DEFAULT_BANNER_IDS;
+  const bannersToShow = AD_BANNERS.filter((banner) =>
+    bannerIdsToShow.includes(banner.id)
+  );
+
   const startDiagnosis = () => {
     if (
       !formData.year ||
@@ -146,7 +157,7 @@ export default function Home() {
         <div className="w-full max-w-md space-y-6">
           <div className="bg-[#2d2448] p-4 rounded-2xl border border-pink-500/30">
             <h1 className="text-xl font-bold text-center text-pink-400">
-              🔮 恋愛占い（恋愛キャラ診断付き）
+              🔮 あなた恋愛キャラと恋愛占い
             </h1>
           </div>
           <label className="text-sm text-pink-300 font-medium block">
@@ -275,9 +286,17 @@ export default function Home() {
               {result.text}
             </p>
           </div>
+          <div className="bg-[#2d2448] p-6 rounded-2xl border border-pink-500/30 text-left">
+            <h3 className="text-center text-pink-300 font-bold mb-4 text-xl">
+              📝 【アドバイス】
+            </h3>
+            <p className="text-sm text-gray-200 leading-relaxed">
+              {ADVICE_BY_STATUS[formData.loveStatus]}
+            </p>
+          </div>
           {/* 広告バナー表示エリア */}
           <div className="space-y-4 pt-4">
-            {AD_BANNERS.map((banner, idx) => (
+            {bannersToShow.map((banner, idx) => (
               <div
                 key={idx}
                 className="bg-[#2d2448] p-3 rounded-2xl border border-pink-500/30 text-left"
