@@ -2,7 +2,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { FORTUNE_DATA } from '../src/data/fortuneData';
 import { AD_BANNERS } from '../src/data/adBanners';
-import { BANNER_RULES, DEFAULT_BANNER_IDS } from '../src/data/adBannerRules';
 import { ADVICE_BY_STATUS } from '../src/data/advice';
 
 // A8.netなど、<script>タグを含む「スクリプト実行型」の広告コードを
@@ -113,14 +112,39 @@ export default function Home() {
   const [result, setResult] = useState({ char: CHARACTERS[0], text: '' });
   const displayName = formData.name.trim() ? `${formData.name.trim()}さん` : 'あなた';
 
-  // 恋愛ステータス×気になっていることの組み合わせに応じて、
-  // 表示するバナーだけを絞り込みます
-  const bannerIdsToShow =
-    BANNER_RULES[formData.loveStatus]?.[formData.interest] ??
-    DEFAULT_BANNER_IDS;
-  const bannersToShow = AD_BANNERS.filter((banner) =>
-    bannerIdsToShow.includes(banner.id)
-  );
+  // 表示する2つのバナーを、それぞれidで指定して取得します
+  const firstBanner = AD_BANNERS.find((banner) => banner.id === 'coconala');
+  const secondBanner = AD_BANNERS.find((banner) => banner.id === 'brillante');
+
+  // バナー1つ分を表示するための共通部品
+  const renderBanner = (banner: any) => {
+    if (!banner) return null;
+    return (
+      <div className="bg-[#2d2448] p-3 rounded-2xl border border-pink-500/30 text-left">
+        <p className="text-xs text-pink-300 font-bold mb-2">
+          {banner.label.split('あなた').join(displayName)}
+        </p>
+        {banner.htmlCode ? (
+          // A8.netなどが発行した「そのまま貼るコード」を、
+          // scriptタグも含めて正しく実行するためのコンポーネントです
+          <AdEmbed html={banner.htmlCode} />
+        ) : (
+          <a
+            href={banner.link}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className="block rounded-xl overflow-hidden"
+          >
+            <img
+              src={banner.imageSrc}
+              alt={banner.alt}
+              className="w-full h-auto rounded-xl"
+            />
+          </a>
+        )}
+      </div>
+    );
+  };
 
   const startDiagnosis = () => {
     if (
@@ -281,6 +305,7 @@ export default function Home() {
               {result.char.desc}
             </p>
           </div>
+
           <div className="bg-[#2d2448] p-6 rounded-2xl border border-pink-500/30 text-left">
             <h3 className="text-center text-pink-300 font-bold mb-4 text-xl">
               💬 {displayName}の占い結果
@@ -289,39 +314,9 @@ export default function Home() {
               {result.text.split('あなた').join(displayName)}
             </p>
           </div>
-       
-          {/* 広告バナー表示エリア */}
-          <div className="space-y-4 pt-4">
-            {bannersToShow.map((banner, idx) => (
-              <div
-                key={idx}
-                className="bg-[#2d2448] p-3 rounded-2xl border border-pink-500/30 text-left"
-              >
-                <p className="text-xs text-pink-300 font-bold mb-2">
-                  {banner.label.split('あなた').join(displayName)}
-                </p>
-                {banner.htmlCode ? (
-                  // A8.netなどが発行した「そのまま貼るコード」を、
-                  // scriptタグも含めて正しく実行するためのコンポーネントです
-                  <AdEmbed html={banner.htmlCode} />
-                ) : (
-                  <a
-                    href={banner.link}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    className="block rounded-xl overflow-hidden"
-                  >
-                    <img
-                      src={banner.imageSrc}
-                      alt={banner.alt}
-                      className="w-full h-auto rounded-xl"
-                    />
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
-          
+
+          {renderBanner(firstBanner)}
+
           <div className="bg-[#2d2448] p-6 rounded-2xl border border-pink-500/30 text-left">
             <h3 className="text-center text-pink-300 font-bold mb-4 text-xl">
               📝 {displayName}へのアドバイス
@@ -332,37 +327,8 @@ export default function Home() {
                 .join(displayName)}
             </p>
           </div>
-          {/* 広告バナー表示エリア */}
-          <div className="space-y-4 pt-4">
-            {bannersToShow.map((banner, idx) => (
-              <div
-                key={idx}
-                className="bg-[#2d2448] p-3 rounded-2xl border border-pink-500/30 text-left"
-              >
-                <p className="text-xs text-pink-300 font-bold mb-2">
-                  {banner.label.split('あなた').join(displayName)}
-                </p>
-                {banner.htmlCode ? (
-                  // A8.netなどが発行した「そのまま貼るコード」を、
-                  // scriptタグも含めて正しく実行するためのコンポーネントです
-                  <AdEmbed html={banner.htmlCode} />
-                ) : (
-                  <a
-                    href={banner.link}
-                    target="_blank"
-                    rel="noopener noreferrer sponsored"
-                    className="block rounded-xl overflow-hidden"
-                  >
-                    <img
-                      src={banner.imageSrc}
-                      alt={banner.alt}
-                      className="w-full h-auto rounded-xl"
-                    />
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
+
+          {renderBanner(secondBanner)}
 
           <button
             onClick={() => setStatus('input')}
