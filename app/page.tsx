@@ -144,7 +144,7 @@ export default function Home() {
     const text =
       FORTUNE_DATA[selectedChar.name]?.[formData.loveStatus]?.[
         formData.interest
-      ] || 'ただいま診断中です...';
+      ] || 'ただいま診断中よ...';
 
     setResult({ char: selectedChar, text });
     setStatus('loading');
@@ -291,6 +291,39 @@ export default function Home() {
           </div>
           <div className="bg-[#2d2448] p-6 rounded-2xl border border-pink-500/30 text-left">
             <h3 className="text-center text-pink-300 font-bold mb-4 text-xl">
+
+                        {/* 広告バナー表示エリア */}
+          <div className="space-y-4 pt-4">
+            {bannersToShow.map((banner, idx) => (
+              <div
+                key={idx}
+                className="bg-[#2d2448] p-3 rounded-2xl border border-pink-500/30 text-left"
+              >
+                <p className="text-xs text-pink-300 font-bold mb-2">
+                  {banner.label.split('あなた').join(displayName)}
+                </p>
+                {banner.htmlCode ? (
+                  // A8.netなどが発行した「そのまま貼るコード」を、
+                  // scriptタグも含めて正しく実行するためのコンポーネントです
+                  <AdEmbed html={banner.htmlCode} />
+                ) : (
+                  <a
+                    href={banner.link}
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    className="block rounded-xl overflow-hidden"
+                  >
+                    <img
+                      src={banner.imageSrc}
+                      alt={banner.alt}
+                      className="w-full h-auto rounded-xl"
+                    />
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+              
               📝 {displayName}へのアドバイス
             </h3>
             <p className="text-sm text-gray-200 leading-relaxed">
