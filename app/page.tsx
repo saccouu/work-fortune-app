@@ -1,346 +1,265 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
-import { FORTUNE_DATA } from '../src/data/fortuneData';
-import { AD_BANNERS } from '../src/data/adBanners';
-import { ADVICE_BY_STATUS } from '../src/data/advice';
-
-// A8.netなど、<script>タグを含む「スクリプト実行型」の広告コードを
-// 正しく動かすための専用コンポーネントです。
-// (Reactは通常、innerHTML経由で挿入されたscriptタグを実行しないため、
-//  scriptタグだけを作り直してDOMに追加し直しています)
-function AdEmbed({ html }: { html: string }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    container.innerHTML = html;
-
-    // 挿入したHTMLの中にある<script>タグを探して、実行されるように作り直す
-    const oldScripts = Array.from(container.querySelectorAll('script'));
-    oldScripts.forEach((oldScript) => {
-      const newScript = document.createElement('script');
-      Array.from(oldScript.attributes).forEach((attr) => {
-        newScript.setAttribute(attr.name, attr.value);
-      });
-      // 元のコードに書かれた順番通りに実行させるための設定
-      // (これがないと、外部ファイルの読み込みが後回しになり、
-      //  まだ準備が整う前に次のscriptが動いてエラーになることがある)
-      newScript.async = false;
-      newScript.textContent = oldScript.textContent;
-      oldScript.parentNode?.replaceChild(newScript, oldScript);
-    });
-  }, [html]);
-
-  return <div ref={containerRef} className="flex justify-center" />;
-}
-
-const CHARACTERS = [
-  {
-    name: '慈愛のパンダ',
-    emoji: '🐼',
-    desc: '周囲を和ませる温かい心を持っているわ。争いを避け、調和を大切にする平和主義者よ。',
-  },
-  {
-    name: '情熱のイノシシ',
-    emoji: '🐗',
-    desc: '一度好きになると一直線に進む性格。行動力と情熱で相手を惹きつけるパワーがあるわよ。',
-  },
-  {
-    name: '冷静なキツネ',
-    emoji: '🦊',
-    desc: '鋭い観察眼で相手の心を見抜く力があるわ。駆け引きは得意だけど、素直になれずにチャンスを逃してしまうこともあるわよ。',
-  },
-  {
-    name: 'ひたむきなウサギ',
-    emoji: '🐰',
-    desc: '寂しがり屋で甘え上手な、愛されキャラ。周囲との調和を大切にするわね。',
-  },
-  {
-    name: '高嶺のネコ',
-    emoji: '🐱',
-    desc: 'マイペースでミステリアスな魅力があるわ。ひとりの時間を大切にしているけど、寂しがりやの一面も。',
-  },
-  {
-    name: '一途なイヌ',
-    emoji: '🐶',
-    desc: 'すごく誠実で、パートナーを愛し抜く一途さを持っているわね。一度信頼を寄せると献身的に支えるわ。',
-  },
-  {
-    name: '華やかなクジャク',
-    emoji: '🦚',
-    desc: '社交的で、その場の空気を明るくする華やかさを持ってるわね。強く見せているけど繊細な一面も。',
-  },
-  {
-    name: '自由なイルカ',
-    emoji: '🐬',
-    desc: '直感と感性を何よりも大切にする自由人。束縛を嫌うけど、深い絆を大切にするわ。',
-  },
-  {
-    name: '頼れるクマ',
-    emoji: '🐻',
-    desc: '頼りがいがあって、周囲を優しく包み込む世話焼きタイプ。穏やかな恋愛を好むわ。',
-  },
-  {
-    name: '知的なフクロウ',
-    emoji: '🦉',
-    desc: '客観的に状況を分析する、冷静な知性派。感情に流されず将来性を見極めるわ。',
-  },
-  {
-    name: '純粋なシカ',
-    emoji: '🦌',
-    desc: '感受性が人一倍強く、とても繊細でピュアな心を持ってるわね。その優しさに救われている人も多いわよ。',
-  },
-  {
-    name: '情熱のライオン',
-    emoji: '🦁',
-    desc: '自信に満ちたリーダー気質。恋愛では相手を引っ張ることを好むわ。',
-  },
-];
+import { useState } from 'react';
+import { JOBS_DATA } from '../src/data/jobsData';
+import { QUESTIONS } from '../src/data/questions';
 
 export default function Home() {
+  // 画面の状態: 'input'(名前入力) → 'question'(質問中) → 'loading'(診断中) → 'result'(結果)
   const [status, setStatus] = useState('input');
-  const [formData, setFormData] = useState({
-    name: '',
-    year: '',
-    month: '',
-    day: '',
-    loveStatus: '',
-    interest: '',
-  });
-  const [result, setResult] = useState({ char: CHARACTERS[0], text: '' });
-  const displayName = formData.name.trim() ? `${formData.name.trim()}さん` : 'あなた';
+  const [name, setName] = useState('');
 
-  // 表示する2つのバナーを、それぞれidで指定して取得します
-  const firstBanner = AD_BANNERS.find((banner) => banner.id === 'coconala');
-  const secondBanner = AD_BANNERS.find((banner) => banner.id === 'brillante');
+  // 現在何問目か(0から数える)
+  const [currentQuestion, setCurrentQuestion] = useState(0);
 
-  // バナー1つ分を表示するための共通部品
-  const renderBanner = (banner: any) => {
-    if (!banner) return null;
-    return (
-      <div className="bg-[#2d2448] p-3 rounded-2xl border border-pink-500/30 text-left">
-        <p className="text-xs text-pink-300 font-bold mb-2">
-          {banner.label.split('あなた').join(displayName)}
-        </p>
-        {banner.htmlCode ? (
-          // A8.netなどが発行した「そのまま貼るコード」を、
-          // scriptタグも含めて正しく実行するためのコンポーネントです
-          <AdEmbed html={banner.htmlCode} />
-        ) : (
-          <a
-            href={banner.link}
-            target="_blank"
-            rel="noopener noreferrer sponsored"
-            className="block rounded-xl overflow-hidden"
-          >
-            <img
-              src={banner.imageSrc}
-              alt={banner.alt}
-              className="w-full h-auto rounded-xl"
-            />
-          </a>
-        )}
-      </div>
-    );
+  // 各質問の回答(1〜5)を、質問の数だけ保存しておく配列
+  const [answers, setAnswers] = useState<(number | null)[]>(
+    Array(QUESTIONS.length).fill(null)
+  );
+
+  const [result, setResult] = useState(JOBS_DATA[0]);
+
+  const displayName = name.trim() ? `${name.trim()}さん` : 'あなた';
+
+  // 診断スタート(名前入力画面→質問画面へ)
+  const startQuiz = () => {
+    setCurrentQuestion(0);
+    setAnswers(Array(QUESTIONS.length).fill(null));
+    setStatus('question');
   };
 
-  const startDiagnosis = () => {
-    if (
-      !formData.year ||
-      !formData.month ||
-      !formData.day ||
-      !formData.loveStatus ||
-      !formData.interest
-    ) {
-      alert('すべての項目を選択してくださいね。');
+  // 質問に回答したときの処理
+  const selectAnswer = (score: number) => {
+    const newAnswers = [...answers];
+    newAnswers[currentQuestion] = score;
+    setAnswers(newAnswers);
+  };
+
+  // 「次へ」ボタン
+  const goNext = () => {
+    if (answers[currentQuestion] === null) {
+      alert('選択肢を選んでくださいね。');
       return;
     }
-    const charIdx =
-      (parseInt(formData.year) +
-        parseInt(formData.month) +
-        parseInt(formData.day)) %
-      CHARACTERS.length;
-    const selectedChar = CHARACTERS[charIdx];
+    if (currentQuestion < QUESTIONS.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+    } else {
+      // 最後の質問だった場合、集計して結果を出す
+      calculateResult();
+    }
+  };
 
-    // データから取得（ここがデータ反映の心臓部です）
-    const text =
-      FORTUNE_DATA[selectedChar.name]?.[formData.loveStatus]?.[
-        formData.interest
-      ] || 'ただいま診断中です...';
+  // 「戻る」ボタン
+  const goBack = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
+    }
+  };
 
-    setResult({ char: selectedChar, text });
+  // 集計処理
+  const calculateResult = () => {
+    // 各カテゴリの得点を集計するための入れ物
+    const scoreMap: { [key: string]: number } = {};
+    JOBS_DATA.forEach((job) => {
+      scoreMap[job.id] = 0;
+    });
+
+    QUESTIONS.forEach((question, index) => {
+      const answerScore = answers[index] ?? 0;
+      question.scores.forEach((categoryId) => {
+        scoreMap[categoryId] += answerScore;
+      });
+    });
+
+    // 一番得点が高いカテゴリを探す(同点の場合は先に出てきた方=JOBS_DATAの並び順を優先)
+    let topJob = JOBS_DATA[0];
+    let topScore = -1;
+    JOBS_DATA.forEach((job) => {
+      if (scoreMap[job.id] > topScore) {
+        topScore = scoreMap[job.id];
+        topJob = job;
+      }
+    });
+
+    setResult(topJob);
     setStatus('loading');
-    setTimeout(() => setStatus('result'), 3000);
+    setTimeout(() => setStatus('result'), 2500);
+  };
+
+  const restart = () => {
+    setName('');
+    setStatus('input');
   };
 
   return (
     <div className="min-h-screen bg-[#1a142d] text-white p-6 flex justify-center">
+      {/* ① 名前入力画面 */}
       {status === 'input' && (
         <div className="w-full max-w-md space-y-6">
           <div className="bg-[#2d2448] p-4 rounded-2xl border border-pink-500/30">
             <h1 className="text-xl font-bold text-center text-pink-400">
-              🔮 恋愛迷子のための恋愛診断
+              あなたに向いている仕事＆資格診断
             </h1>
-            <p className="text-base text-pink-300 text-center mt-1">
-              あなたの恋愛キャラも占うわよ
+            <p className="text-sm text-pink-300 text-center mt-1">
+              AI時代でも必要とされる、あなたの資質を診断します
             </p>
           </div>
+
           <label className="text-sm text-pink-300 font-medium block">
-            😊 お名前（ニックネームでもOK・ここは空欄でもOKよ）
+            お名前（ニックネームでもOK・空欄でも診断できます）
           </label>
           <input
             type="text"
-            value={formData.name}
-            onChange={(e) =>
-              setFormData({ ...formData, name: e.target.value })
-            }
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             placeholder="例：はなこ"
             className="w-full p-4 bg-[#2d2448] border border-gray-600 rounded-xl placeholder-gray-500"
           />
-          <label className="text-sm text-pink-300 font-medium block">
-            🎂 生年月日
-          </label>
-          <div className="flex gap-2">
-            <select
-              className="w-1/3 p-4 bg-[#2d2448] border border-gray-600 rounded-xl"
-              onChange={(e) =>
-                setFormData({ ...formData, year: e.target.value })
-              }
-            >
-              <option value="">年</option>
-              {/* 2006年から1966年まで降順で表示 */}
-              {Array.from({ length: 41 }, (_, i) => 2006 - i).map((y) => (
-                <option key={y} value={y}>
-                  {y}年
-                </option>
-              ))}
-            </select>
-            <select
-              className="w-1/3 p-4 bg-[#2d2448] border border-gray-600 rounded-xl"
-              onChange={(e) =>
-                setFormData({ ...formData, month: e.target.value })
-              }
-            >
-              <option value="">月</option>
-              {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
-                <option key={m} value={m}>
-                  {m}月
-                </option>
-              ))}
-            </select>
-            <select
-              className="w-1/3 p-4 bg-[#2d2448] border border-gray-600 rounded-xl"
-              onChange={(e) =>
-                setFormData({ ...formData, day: e.target.value })
-              }
-            >
-              <option value="">日</option>
-              {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => (
-                <option key={d} value={d}>
-                  {d}日
-                </option>
-              ))}
-            </select>
-          </div>
-          <label className="text-sm text-pink-300 font-medium block">
-            💌 今の恋愛ステータスは？
-          </label>
-          <select
-            className="w-full p-4 bg-[#2d2448] border border-gray-600 rounded-xl"
-            onChange={(e) =>
-              setFormData({ ...formData, loveStatus: e.target.value })
-            }
-          >
-            <option value="">選択してください</option>
-            {['フリー', '片思い中', '復縁したい', '交際中'].map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-          <label className="text-sm text-pink-300 font-medium block">
-            💭 今一番気になっていること
-          </label>
-          <select
-            className="w-full p-4 bg-[#2d2448] border border-gray-600 rounded-xl"
-            onChange={(e) =>
-              setFormData({ ...formData, interest: e.target.value })
-            }
-          >
-            <option value="">選択してください</option>
-            {['相手の本音', '2人の未来', '新しい出会い', 'その他'].map((i) => (
-              <option key={i} value={i}>
-                {i}
-              </option>
-            ))}
-          </select>
+
           <button
-            onClick={startDiagnosis}
+            onClick={startQuiz}
             className="w-full py-4 bg-gradient-to-r from-pink-600 to-purple-600 rounded-2xl font-bold text-lg shadow-lg"
           >
-            ✨ 占いスタート ✨
+            診断スタート
           </button>
         </div>
       )}
 
-      {status === 'loading' && (
-        <div className="text-center space-y-4 pt-20">
-          <p>🔮 {displayName}の運勢を紐解いてるわ...</p>
-          <div className="w-64 h-3 bg-gray-700 rounded-full mx-auto overflow-hidden">
-            <div className="h-full bg-pink-500 animate-[loading_3s_linear_forwards]"></div>
+      {/* ② 質問画面 */}
+      {status === 'question' && (
+        <div className="w-full max-w-md space-y-6 pt-6">
+          <p className="text-sm text-pink-300 text-center">
+            質問 {currentQuestion + 1} / {QUESTIONS.length}
+          </p>
+
+          <div className="bg-[#2d2448] p-6 rounded-2xl border border-pink-500/30">
+            <p className="text-base text-gray-100 leading-relaxed text-center">
+              {QUESTIONS[currentQuestion].text}
+            </p>
+          </div>
+
+          <div className="flex justify-between items-center px-2">
+            <span className="text-xs text-gray-400">当てはまらない</span>
+            <span className="text-xs text-gray-400">当てはまる</span>
+          </div>
+
+          <div className="flex justify-between gap-2">
+            {[1, 2, 3, 4, 5].map((score) => (
+              <button
+                key={score}
+                onClick={() => selectAnswer(score)}
+                className={`flex-1 aspect-square rounded-full border-2 font-bold text-lg transition-colors ${
+                  answers[currentQuestion] === score
+                    ? 'bg-pink-500 border-pink-500 text-white'
+                    : 'bg-[#2d2448] border-gray-600 text-gray-300'
+                }`}
+              >
+                {score}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex gap-3 pt-4">
+            {currentQuestion > 0 && (
+              <button
+                onClick={goBack}
+                className="flex-1 py-3 border border-gray-600 rounded-xl text-gray-300"
+              >
+                戻る
+              </button>
+            )}
+            <button
+              onClick={goNext}
+              className="flex-1 py-3 bg-gradient-to-r from-pink-600 to-purple-600 rounded-xl font-bold"
+            >
+              {currentQuestion < QUESTIONS.length - 1 ? '次へ' : '診断結果を見る'}
+            </button>
           </div>
         </div>
       )}
 
+      {/* ③ ローディング画面 */}
+      {status === 'loading' && (
+        <div className="text-center space-y-4 pt-20">
+          <p>診断結果をまとめています...</p>
+          <div className="w-64 h-3 bg-gray-700 rounded-full mx-auto overflow-hidden">
+            <div className="h-full bg-pink-500 animate-[loading_2.5s_linear_forwards]"></div>
+          </div>
+        </div>
+      )}
+
+      {/* ④ 結果画面 */}
       {status === 'result' && (
         <div className="w-full max-w-sm space-y-6 pt-10 text-center">
-          <div className="bg-[#2d2448] p-6 rounded-2xl border border-pink-500/30">
-            <p className="text-sm mb-1">💫 {displayName}の恋愛キャラ</p>
-            <h2 className="text-xl font-bold text-pink-400">
-              {result.char.emoji} {result.char.name}
+          <div className="bg-[#2d2448] p-6 rounded-2xl border border-pink-500/30 text-left">
+            <p className="text-sm mb-1 text-center">{displayName}に向いているのは</p>
+            <h2 className="text-xl font-bold text-pink-400 text-center mb-4">
+              {result.name}
             </h2>
-            <p className="text-sm text-gray-400 mt-2 italic">
-              {result.char.desc}
-            </p>
+
+            {result.trait.map((line, idx) => (
+              <p key={idx} className="text-sm text-gray-200 leading-relaxed">
+                {line.replace('〇〇さん', displayName)}
+              </p>
+            ))}
           </div>
 
           <div className="bg-[#2d2448] p-6 rounded-2xl border border-pink-500/30 text-left">
-            <h3 className="text-center text-pink-300 font-bold mb-4 text-xl">
-              💬 {displayName}の占い結果
-            </h3>
-            <p className="text-sm text-gray-200 leading-relaxed">
-              {result.text.split('あなた').join(displayName)}
+            <p className="text-sm text-gray-200 leading-relaxed mb-2">
+              そんな{displayName}におすすめなのが、{result.name}の資格です。
             </p>
+            {result.reason.map((line, idx) => (
+              <p key={idx} className="text-sm text-gray-200 leading-relaxed">
+                {line}
+              </p>
+            ))}
           </div>
-
-          {renderBanner(firstBanner)}
 
           <div className="bg-[#2d2448] p-6 rounded-2xl border border-pink-500/30 text-left">
-            <h3 className="text-center text-pink-300 font-bold mb-4 text-xl">
-              📝 {displayName}へのアドバイス
-            </h3>
+            <p className="text-sm text-gray-200 leading-relaxed mb-2">
+              {result.name}には、こんな資格があります。
+            </p>
             <p className="text-sm text-gray-200 leading-relaxed">
-              {ADVICE_BY_STATUS[formData.loveStatus]
-                ?.split('あなた')
-                .join(displayName)}
+              {result.qualifications.map((q) => `・${q}`).join('\n')}
+              {'\nなど'}
             </p>
           </div>
 
-          {renderBanner(secondBanner)}
+          <div className="bg-[#2d2448] p-4 rounded-2xl border border-pink-500/30">
+            <p className="text-sm text-pink-300 mb-3">
+              💡 最短2ヶ月・自宅で資格取得できます。
+            </p>
+            <a
+              href={result.link || '#'}
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="block w-full py-3 bg-gradient-to-r from-pink-600 to-purple-600 rounded-xl font-bold text-sm"
+            >
+              {result.buttonLabel} →
+            </a>
+            <p className="text-xs text-gray-400 mt-2">1日30分の学習でOK</p>
+          </div>
 
           <button
-            onClick={() => setStatus('input')}
+            onClick={restart}
             className="w-full text-center text-pink-300 underline pt-2"
           >
-            🔄 もう一度占う
+            もう一度診断する
           </button>
         </div>
       )}
 
       <style jsx global>{`
-        @keyframes loading { from { width: 0%; } to { width: 100%; } }
+        @keyframes loading {
+          from {
+            width: 0%;
+          }
+          to {
+            width: 100%;
+          }
+        }
+        p {
+          white-space: pre-line;
+        }
       `}</style>
     </div>
   );
