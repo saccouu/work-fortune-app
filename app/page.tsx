@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { JOBS_DATA } from '../src/data/jobsData';
 import { QUESTIONS } from '../src/data/questions';
+import { OTHER_JOBS_LINK } from '../src/data/otherJobsLink';
 
 // A8.netなど、計測用の<img>タグや<script>タグを含む
 // 「そのまま貼るコード」を、正しく表示するための専用コンポーネントです。
@@ -271,6 +272,26 @@ export default function Home() {
             )}
             <p className="text-xs text-gray-400 mt-2">1日30分の学習でOK</p>
           </div>
+
+          {/* サブリンク：診断結果にピンとこなかった人向けの受け皿 */}
+          {(OTHER_JOBS_LINK.htmlCode || OTHER_JOBS_LINK.link) && (
+            <div className="pt-1">
+              {OTHER_JOBS_LINK.htmlCode ? (
+                <div className="[&_a]:text-pink-300 [&_a]:underline [&_a]:text-sm">
+                  <AdEmbed html={OTHER_JOBS_LINK.htmlCode} />
+                </div>
+              ) : (
+                <a
+                  href={OTHER_JOBS_LINK.link}
+                  target="_blank"
+                  rel="noopener noreferrer sponsored"
+                  className="block text-center text-pink-300 underline text-sm"
+                >
+                  {OTHER_JOBS_LINK.label} →
+                </a>
+              )}
+            </div>
+          )}
 
           <button
             onClick={restart}
