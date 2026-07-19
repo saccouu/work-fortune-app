@@ -153,6 +153,9 @@ export default function Home() {
       {status === 'input' && (
         <div className="w-full max-w-md space-y-6 relative">
           <div className="bg-white p-5 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226]">
+            <div className="text-4xl text-center mb-2">
+              🧠🔮🌸🐾🧵
+            </div>
             <h1 className="pop-heading text-2xl font-bold text-center text-[#F2684E]">
               あなたに向いている仕事＆資格診断
             </h1>
@@ -245,8 +248,9 @@ export default function Home() {
 
       {/* ③ ローディング画面 */}
       {status === 'loading' && (
-        <div className="text-center space-y-4 pt-20 relative">
-          <p className="text-[#8A7A65] font-bold">診断結果をまとめています... 🔍</p>
+        <div className="text-center space-y-4 pt-16 relative">
+          <div className="text-5xl animate-bounce">🔍✨</div>
+          <p className="text-[#8A7A65] font-bold">診断結果をまとめています...</p>
           <div className="w-64 h-4 bg-[#E8DCC8] rounded-full mx-auto overflow-hidden border-2 border-[#3D3226]">
             <div className="h-full bg-gradient-to-r from-[#4FC1B0] via-[#F2C24E] to-[#F2684E] animate-[loading_2.5s_linear_forwards]"></div>
           </div>
@@ -257,9 +261,12 @@ export default function Home() {
       {status === 'result' && (
         <div className="w-full max-w-sm space-y-6 pt-10 text-center relative">
           <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
+            <div className="text-6xl text-center mb-2">
+              {CATEGORY_EMOJI[result.id] || '✨'}
+            </div>
             <p className="text-sm mb-1 text-center text-[#8A7A65] font-bold">{displayName}に向いているのは</p>
             <h2 className="pop-heading text-2xl font-bold text-[#F2684E] text-center mb-4">
-              {CATEGORY_EMOJI[result.id] || '✨'} {result.name}
+              {result.name}
             </h2>
 
             {result.trait.map((line, idx) => (
