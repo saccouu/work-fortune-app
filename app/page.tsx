@@ -194,7 +194,7 @@ export default function Home() {
       {/* ② 質問画面 */}
       {status === 'question' && (
         <div className="w-full max-w-md space-y-6 pt-6 relative">
-          <p className="text-sm text-[#F2924E] font-bold text-center">
+          <p className="text-sm text-[#C1685C] font-bold text-center">
             質問 {currentQuestion + 1} / {QUESTIONS.length}
           </p>
 
@@ -325,7 +325,7 @@ export default function Home() {
           {(OTHER_JOBS_LINK.htmlCode || OTHER_JOBS_LINK.link) && (
             <div className="pt-1">
               {OTHER_JOBS_LINK.htmlCode ? (
-                <div className="[&_a]:text-[#F2924E] [&_a]:underline [&_a]:text-sm [&_a]:font-bold">
+                <div className="[&_a]:text-[#C1685C] [&_a]:underline [&_a]:text-sm [&_a]:font-bold">
                   <AdEmbed html={OTHER_JOBS_LINK.htmlCode} />
                 </div>
               ) : (
