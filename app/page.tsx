@@ -119,20 +119,20 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#1a142d] text-white p-6 flex justify-center">
+    <div className="min-h-screen bg-[#FBF6EE] text-[#4A3F35] p-6 flex justify-center">
       {/* ① 名前入力画面 */}
       {status === 'input' && (
         <div className="w-full max-w-md space-y-6">
-          <div className="bg-[#2d2448] p-4 rounded-2xl border border-pink-500/30">
-            <h1 className="text-xl font-bold text-center text-pink-400">
+          <div className="bg-white p-4 rounded-2xl border border-[#E8DCC8] shadow-sm">
+            <h1 className="text-xl font-bold text-center text-[#C97B4A]">
               あなたに向いている仕事＆資格診断
             </h1>
-            <p className="text-sm text-pink-300 text-center mt-1">
+            <p className="text-sm text-[#B5673A] text-center mt-1">
               AI時代でも必要とされる、あなたの資質を診断します
             </p>
           </div>
 
-          <label className="text-sm text-pink-300 font-medium block">
+          <label className="text-sm text-[#B5673A] font-medium block">
             お名前（ニックネームでもOK・空欄でも診断できます）
           </label>
           <input
@@ -140,12 +140,12 @@ export default function Home() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="例：はなこ"
-            className="w-full p-4 bg-[#2d2448] border border-gray-600 rounded-xl placeholder-gray-500"
+            className="w-full p-4 bg-white border border-[#D9C8AE] rounded-xl placeholder-[#B5A48C] text-[#4A3F35]"
           />
 
           <button
             onClick={startQuiz}
-            className="w-full py-4 bg-gradient-to-r from-pink-600 to-purple-600 rounded-2xl font-bold text-lg shadow-lg"
+            className="w-full py-4 bg-gradient-to-r from-[#E8A87C] to-[#D4875A] rounded-2xl font-bold text-lg text-white shadow-sm"
           >
             診断スタート
           </button>
@@ -155,19 +155,19 @@ export default function Home() {
       {/* ② 質問画面 */}
       {status === 'question' && (
         <div className="w-full max-w-md space-y-6 pt-6">
-          <p className="text-sm text-pink-300 text-center">
+          <p className="text-sm text-[#B5673A] text-center">
             質問 {currentQuestion + 1} / {QUESTIONS.length}
           </p>
 
-          <div className="bg-[#2d2448] p-6 rounded-2xl border border-pink-500/30">
-            <p className="text-base text-gray-100 leading-relaxed text-center">
+          <div className="bg-white p-6 rounded-2xl border border-[#E8DCC8] shadow-sm">
+            <p className="text-base text-[#4A3F35] leading-relaxed text-center">
               {QUESTIONS[currentQuestion].text}
             </p>
           </div>
 
           <div className="flex justify-between items-center px-2">
-            <span className="text-xs text-gray-400">当てはまらない</span>
-            <span className="text-xs text-gray-400">当てはまる</span>
+            <span className="text-xs text-[#A69885]">当てはまらない</span>
+            <span className="text-xs text-[#A69885]">当てはまる</span>
           </div>
 
           <div className="flex justify-between gap-2">
@@ -177,8 +177,8 @@ export default function Home() {
                 onClick={() => selectAnswer(score)}
                 className={`flex-1 aspect-square rounded-full border-2 font-bold text-lg transition-colors ${
                   answers[currentQuestion] === score
-                    ? 'bg-pink-500 border-pink-500 text-white'
-                    : 'bg-[#2d2448] border-gray-600 text-gray-300'
+                    ? 'bg-[#D98E5F] border-[#D98E5F] text-white'
+                    : 'bg-white border-[#D9C8AE] text-[#8A7A65]'
                 }`}
               >
                 {score}
@@ -190,14 +190,14 @@ export default function Home() {
             {currentQuestion > 0 && (
               <button
                 onClick={goBack}
-                className="flex-1 py-3 border border-gray-600 rounded-xl text-gray-300"
+                className="flex-1 py-3 border border-[#D9C8AE] rounded-xl text-[#8A7A65] bg-white"
               >
                 戻る
               </button>
             )}
             <button
               onClick={goNext}
-              className="flex-1 py-3 bg-gradient-to-r from-pink-600 to-purple-600 rounded-xl font-bold"
+              className="flex-1 py-3 bg-gradient-to-r from-[#E8A87C] to-[#D4875A] rounded-xl font-bold text-white"
             >
               {currentQuestion < QUESTIONS.length - 1 ? '次へ' : '診断結果を見る'}
             </button>
@@ -208,9 +208,9 @@ export default function Home() {
       {/* ③ ローディング画面 */}
       {status === 'loading' && (
         <div className="text-center space-y-4 pt-20">
-          <p>診断結果をまとめています...</p>
-          <div className="w-64 h-3 bg-gray-700 rounded-full mx-auto overflow-hidden">
-            <div className="h-full bg-pink-500 animate-[loading_2.5s_linear_forwards]"></div>
+          <p className="text-[#8A7A65]">診断結果をまとめています...</p>
+          <div className="w-64 h-3 bg-[#E8DCC8] rounded-full mx-auto overflow-hidden">
+            <div className="h-full bg-[#D98E5F] animate-[loading_2.5s_linear_forwards]"></div>
           </div>
         </div>
       )}
@@ -218,46 +218,46 @@ export default function Home() {
       {/* ④ 結果画面 */}
       {status === 'result' && (
         <div className="w-full max-w-sm space-y-6 pt-10 text-center">
-          <div className="bg-[#2d2448] p-6 rounded-2xl border border-pink-500/30 text-left">
-            <p className="text-sm mb-1 text-center">{displayName}に向いているのは</p>
-            <h2 className="text-xl font-bold text-pink-400 text-center mb-4">
+          <div className="bg-white p-6 rounded-2xl border border-[#E8DCC8] shadow-sm text-left">
+            <p className="text-sm mb-1 text-center text-[#8A7A65]">{displayName}に向いているのは</p>
+            <h2 className="text-xl font-bold text-[#C97B4A] text-center mb-4">
               {result.name}
             </h2>
 
             {result.trait.map((line, idx) => (
-              <p key={idx} className="text-sm text-gray-200 leading-relaxed">
+              <p key={idx} className="text-sm text-[#5C4F42] leading-relaxed">
                 {line.replace('〇〇さん', displayName)}
               </p>
             ))}
           </div>
 
-          <div className="bg-[#2d2448] p-6 rounded-2xl border border-pink-500/30 text-left">
-            <p className="text-sm text-gray-200 leading-relaxed mb-2">
+          <div className="bg-white p-6 rounded-2xl border border-[#E8DCC8] shadow-sm text-left">
+            <p className="text-sm text-[#5C4F42] leading-relaxed mb-2">
               そんな{displayName}におすすめなのが、{result.name}の資格です。
             </p>
             {result.reason.map((line, idx) => (
-              <p key={idx} className="text-sm text-gray-200 leading-relaxed">
+              <p key={idx} className="text-sm text-[#5C4F42] leading-relaxed">
                 {line}
               </p>
             ))}
           </div>
 
-          <div className="bg-[#2d2448] p-6 rounded-2xl border border-pink-500/30 text-left">
-            <p className="text-sm text-gray-200 leading-relaxed mb-2">
+          <div className="bg-white p-6 rounded-2xl border border-[#E8DCC8] shadow-sm text-left">
+            <p className="text-sm text-[#5C4F42] leading-relaxed mb-2">
               {result.name}には、こんな資格があります。
             </p>
-            <p className="text-sm text-gray-200 leading-relaxed">
+            <p className="text-sm text-[#5C4F42] leading-relaxed">
               {result.qualifications.map((q) => `・${q}`).join('\n')}
               {'\nなど'}
             </p>
           </div>
 
-          <div className="bg-[#2d2448] p-4 rounded-2xl border border-pink-500/30">
-            <p className="text-sm text-pink-300 mb-3">
+          <div className="bg-white p-4 rounded-2xl border border-[#E8DCC8] shadow-sm">
+            <p className="text-sm text-[#B5673A] mb-3">
               💡 最短2ヶ月・自宅で資格取得できます。
             </p>
             {result.htmlCode ? (
-              <div className="[&_a]:block [&_a]:w-full [&_a]:py-3 [&_a]:bg-gradient-to-r [&_a]:from-pink-600 [&_a]:to-purple-600 [&_a]:rounded-xl [&_a]:font-bold [&_a]:text-sm [&_a]:text-center [&_a]:text-white [&_a]:no-underline">
+              <div className="[&_a]:block [&_a]:w-full [&_a]:py-3 [&_a]:bg-gradient-to-r [&_a]:from-[#E8A87C] [&_a]:to-[#D4875A] [&_a]:rounded-xl [&_a]:font-bold [&_a]:text-sm [&_a]:text-center [&_a]:text-white [&_a]:no-underline">
                 <AdEmbed html={result.htmlCode} />
               </div>
             ) : (
@@ -265,19 +265,19 @@ export default function Home() {
                 href={result.link || '#'}
                 target="_blank"
                 rel="noopener noreferrer sponsored"
-                className="block w-full py-3 bg-gradient-to-r from-pink-600 to-purple-600 rounded-xl font-bold text-sm"
+                className="block w-full py-3 bg-gradient-to-r from-[#E8A87C] to-[#D4875A] rounded-xl font-bold text-sm text-white"
               >
                 {result.buttonLabel} →
               </a>
             )}
-            <p className="text-xs text-gray-400 mt-2">1日30分の学習でOK</p>
+            <p className="text-xs text-[#A69885] mt-2">1日30分の学習でOK</p>
           </div>
 
           {/* サブリンク：診断結果にピンとこなかった人向けの受け皿 */}
           {(OTHER_JOBS_LINK.htmlCode || OTHER_JOBS_LINK.link) && (
             <div className="pt-1">
               {OTHER_JOBS_LINK.htmlCode ? (
-                <div className="[&_a]:text-pink-300 [&_a]:underline [&_a]:text-sm">
+                <div className="[&_a]:text-[#B5673A] [&_a]:underline [&_a]:text-sm">
                   <AdEmbed html={OTHER_JOBS_LINK.htmlCode} />
                 </div>
               ) : (
@@ -285,7 +285,7 @@ export default function Home() {
                   href={OTHER_JOBS_LINK.link}
                   target="_blank"
                   rel="noopener noreferrer sponsored"
-                  className="block text-center text-pink-300 underline text-sm"
+                  className="block text-center text-[#B5673A] underline text-sm"
                 >
                   {OTHER_JOBS_LINK.label} →
                 </a>
@@ -295,7 +295,7 @@ export default function Home() {
 
           <button
             onClick={restart}
-            className="w-full text-center text-pink-300 underline pt-2"
+            className="w-full text-center text-[#B5673A] underline pt-2"
           >
             もう一度診断する
           </button>
