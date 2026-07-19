@@ -186,7 +186,7 @@ export default function Home() {
       {/* ② 質問画面 */}
       {status === 'question' && (
         <div className="w-full max-w-md space-y-6 pt-6 relative">
-          <p className="text-sm text-[#F2924E] font-bold text-center">
+          <p className="text-sm text-[#B5673A] font-bold text-center">
             質問 {currentQuestion + 1} / {QUESTIONS.length}
           </p>
 
