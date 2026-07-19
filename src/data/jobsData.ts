@@ -4,8 +4,11 @@
 // trait: 「〇〇さんは、」に続く人物像の説明(2文)
 // reason: 「そんな〇〇さんにおすすめなのが、」に続く一文＋データ・訴求(2文)
 // qualifications: 「〇〇系には、こんな資格があります。」に続く資格リスト
-// buttonLabel: ボタンに表示する文言
-// link: リンク先URL(まだ未設定の場合は空文字のままでOK、後から入力してください)
+// buttonLabel: ボタンに表示する文言(link方式の時だけ使います)
+// link: リンク先URL(A8.netがURLだけを発行した場合はここに貼ってください。未設定なら空文字のままでOK)
+// htmlCode: A8.netが<a>タグや計測タグ込みのコードを発行した場合、
+//           1文字も書き換えずに、まるごとここに貼り付けてください。
+//           htmlCodeがある場合は、linkよりもhtmlCodeが優先して表示されます。
 
 export const JOBS_DATA = [
   {
@@ -22,6 +25,8 @@ export const JOBS_DATA = [
     qualifications: ['心理カウンセラー', '子供心理カウンセラー', '音楽療法カウンセラー'],
     buttonLabel: '心理学・カウンセラー系の資格をもっと見てみる',
     link: '',
+    htmlCode: `<a href="https://px.a8.net/svt/ejp?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.saraschool.net%2Fmentality%2F" rel="nofollow">心理学・カウンセラー系の資格をもっと見てみる</a>
+<img border="0" width="1" height="1" src="https://www17.a8.net/0.gif?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2" alt="">`,
   },
   {
     id: 'biyo',
