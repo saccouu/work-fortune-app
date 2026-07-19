@@ -48,7 +48,7 @@ const CATEGORY_EMOJI: { [key: string]: string } = {
 // 5段階の回答ボタンそれぞれに割り当てる、ポップな色の変化です。
 // 左(1)がミント寄り、右(5)がコーラル寄りになるようにしています。
 const SCALE_COLORS = [
-  { bg: '#4FC1B0', border: '#4FC1B0' }, // 1: ミント
+  { bg: '#DE94B0', border: '#DE94B0' }, // 1: ローズピンク(ファビコンカラー)
   { bg: '#7FCFA8', border: '#7FCFA8' }, // 2
   { bg: '#F2C24E', border: '#F2C24E' }, // 3: イエロー(中間)
   { bg: '#F2924E', border: '#F2924E' }, // 4
@@ -145,7 +145,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#FBF6EE] text-[#4A3F35] p-6 flex justify-center relative overflow-hidden">
       {/* 背景の、ふんわりした色つきのにじみ装飾 */}
-      <div className="pointer-events-none absolute -top-16 -left-16 w-56 h-56 rounded-full bg-[#4FC1B0]/20 blur-3xl" />
+      <div className="pointer-events-none absolute -top-16 -left-16 w-56 h-56 rounded-full bg-[#DE94B0]/20 blur-3xl" />
       <div className="pointer-events-none absolute top-24 -right-20 w-64 h-64 rounded-full bg-[#F2684E]/15 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 left-1/3 w-48 h-48 rounded-full bg-[#F2C24E]/20 blur-3xl" />
 
@@ -153,13 +153,10 @@ export default function Home() {
       {status === 'input' && (
         <div className="w-full max-w-md space-y-6 relative">
           <div className="bg-white p-5 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226]">
-            <div className="text-4xl text-center mb-2">
-              🧠🔮🌸🐾🧵
-            </div>
             <h1 className="pop-heading text-2xl font-bold text-center text-[#F2684E]">
               あなたに向いている仕事＆資格診断
             </h1>
-            <p className="text-sm text-[#4FC1B0] font-bold text-center mt-2">
+            <p className="text-sm text-[#DE94B0] font-bold text-center mt-2">
               ✨ AI時代でも必要とされる、あなたの資質を診断します ✨
             </p>
           </div>
@@ -187,7 +184,7 @@ export default function Home() {
       {/* ② 質問画面 */}
       {status === 'question' && (
         <div className="w-full max-w-md space-y-6 pt-6 relative">
-          <p className="text-sm text-[#4FC1B0] font-bold text-center">
+          <p className="text-sm text-[#DE94B0] font-bold text-center">
             質問 {currentQuestion + 1} / {QUESTIONS.length}
           </p>
 
@@ -248,11 +245,10 @@ export default function Home() {
 
       {/* ③ ローディング画面 */}
       {status === 'loading' && (
-        <div className="text-center space-y-4 pt-16 relative">
-          <div className="text-5xl animate-bounce">🔍✨</div>
-          <p className="text-[#8A7A65] font-bold">診断結果をまとめています...</p>
+        <div className="text-center space-y-4 pt-20 relative">
+          <p className="text-[#8A7A65] font-bold">診断結果をまとめています... 🔍</p>
           <div className="w-64 h-4 bg-[#E8DCC8] rounded-full mx-auto overflow-hidden border-2 border-[#3D3226]">
-            <div className="h-full bg-gradient-to-r from-[#4FC1B0] via-[#F2C24E] to-[#F2684E] animate-[loading_2.5s_linear_forwards]"></div>
+            <div className="h-full bg-gradient-to-r from-[#DE94B0] via-[#F2C24E] to-[#F2684E] animate-[loading_2.5s_linear_forwards]"></div>
           </div>
         </div>
       )}
@@ -261,12 +257,9 @@ export default function Home() {
       {status === 'result' && (
         <div className="w-full max-w-sm space-y-6 pt-10 text-center relative">
           <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
-            <div className="text-6xl text-center mb-2">
-              {CATEGORY_EMOJI[result.id] || '✨'}
-            </div>
             <p className="text-sm mb-1 text-center text-[#8A7A65] font-bold">{displayName}に向いているのは</p>
             <h2 className="pop-heading text-2xl font-bold text-[#F2684E] text-center mb-4">
-              {result.name}
+              {CATEGORY_EMOJI[result.id] || '✨'} {result.name}
             </h2>
 
             {result.trait.map((line, idx) => (
@@ -322,7 +315,7 @@ export default function Home() {
           {(OTHER_JOBS_LINK.htmlCode || OTHER_JOBS_LINK.link) && (
             <div className="pt-1">
               {OTHER_JOBS_LINK.htmlCode ? (
-                <div className="[&_a]:text-[#4FC1B0] [&_a]:underline [&_a]:text-sm [&_a]:font-bold">
+                <div className="[&_a]:text-[#DE94B0] [&_a]:underline [&_a]:text-sm [&_a]:font-bold">
                   <AdEmbed html={OTHER_JOBS_LINK.htmlCode} />
                 </div>
               ) : (
@@ -330,7 +323,7 @@ export default function Home() {
                   href={OTHER_JOBS_LINK.link}
                   target="_blank"
                   rel="noopener noreferrer sponsored"
-                  className="block text-center text-[#4FC1B0] underline text-sm font-bold"
+                  className="block text-center text-[#DE94B0] underline text-sm font-bold"
                 >
                   {OTHER_JOBS_LINK.label} →
                 </a>
