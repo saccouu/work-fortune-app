@@ -1,7 +1,34 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { JOBS_DATA } from '../src/data/jobsData';
 import { QUESTIONS } from '../src/data/questions';
+
+// A8.netなど、計測用の<img>タグや<script>タグを含む
+// 「そのまま貼るコード」を、正しく表示するための専用コンポーネントです。
+function AdEmbed({ html }: { html: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    container.innerHTML = html;
+
+    // 挿入したHTMLの中にある<script>タグを探して、実行されるように作り直す
+    const oldScripts = Array.from(container.querySelectorAll('script'));
+    oldScripts.forEach((oldScript) => {
+      const newScript = document.createElement('script');
+      Array.from(oldScript.attributes).forEach((attr) => {
+        newScript.setAttribute(attr.name, attr.value);
+      });
+      newScript.async = false;
+      newScript.textContent = oldScript.textContent;
+      oldScript.parentNode?.replaceChild(newScript, oldScript);
+    });
+  }, [html]);
+
+  return <div ref={containerRef} />;
+}
 
 export default function Home() {
   // 画面の状態: 'input'(名前入力) → 'question'(質問中) → 'loading'(診断中) → 'result'(結果)
@@ -228,14 +255,20 @@ export default function Home() {
             <p className="text-sm text-pink-300 mb-3">
               💡 最短2ヶ月・自宅で資格取得できます。
             </p>
-            <a
-              href={result.link || '#'}
-              target="_blank"
-              rel="noopener noreferrer sponsored"
-              className="block w-full py-3 bg-gradient-to-r from-pink-600 to-purple-600 rounded-xl font-bold text-sm"
-            >
-              {result.buttonLabel} →
-            </a>
+            {result.htmlCode ? (
+              <div className="[&_a]:block [&_a]:w-full [&_a]:py-3 [&_a]:bg-gradient-to-r [&_a]:from-pink-600 [&_a]:to-purple-600 [&_a]:rounded-xl [&_a]:font-bold [&_a]:text-sm [&_a]:text-center [&_a]:text-white [&_a]:no-underline">
+                <AdEmbed html={result.htmlCode} />
+              </div>
+            ) : (
+              <a
+                href={result.link || '#'}
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+                className="block w-full py-3 bg-gradient-to-r from-pink-600 to-purple-600 rounded-xl font-bold text-sm"
+              >
+                {result.buttonLabel} →
+              </a>
+            )}
             <p className="text-xs text-gray-400 mt-2">1日30分の学習でOK</p>
           </div>
 
