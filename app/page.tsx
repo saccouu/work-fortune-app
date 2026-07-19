@@ -31,6 +31,30 @@ function AdEmbed({ html }: { html: string }) {
   return <div ref={containerRef} />;
 }
 
+// カテゴリのidごとに、結果画面のタイトル横に添える絵文字です。
+// お好みで自由に変更してください。
+const CATEGORY_EMOJI: { [key: string]: string } = {
+  mentality: '🧠',
+  biyo: '💆',
+  uranai: '🔮',
+  syoku: '🍎',
+  syugei: '🧵',
+  pet: '🐾',
+  katazuke: '🧹',
+  syokubutsu: '🌸',
+  design: '🛋️',
+};
+
+// 5段階の回答ボタンそれぞれに割り当てる、ポップな色の変化です。
+// 左(1)がミント寄り、右(5)がコーラル寄りになるようにしています。
+const SCALE_COLORS = [
+  { bg: '#4FC1B0', border: '#4FC1B0' }, // 1: ミント
+  { bg: '#7FCFA8', border: '#7FCFA8' }, // 2
+  { bg: '#F2C24E', border: '#F2C24E' }, // 3: イエロー(中間)
+  { bg: '#F2924E', border: '#F2924E' }, // 4
+  { bg: '#F2684E', border: '#F2684E' }, // 5: コーラル
+];
+
 export default function Home() {
   // 画面の状態: 'input'(名前入力) → 'question'(質問中) → 'loading'(診断中) → 'result'(結果)
   const [status, setStatus] = useState('input');
@@ -119,20 +143,25 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FBF6EE] text-[#4A3F35] p-6 flex justify-center">
+    <div className="min-h-screen bg-[#FBF6EE] text-[#4A3F35] p-6 flex justify-center relative overflow-hidden">
+      {/* 背景の、ふんわりした色つきのにじみ装飾 */}
+      <div className="pointer-events-none absolute -top-16 -left-16 w-56 h-56 rounded-full bg-[#4FC1B0]/20 blur-3xl" />
+      <div className="pointer-events-none absolute top-24 -right-20 w-64 h-64 rounded-full bg-[#F2684E]/15 blur-3xl" />
+      <div className="pointer-events-none absolute bottom-0 left-1/3 w-48 h-48 rounded-full bg-[#F2C24E]/20 blur-3xl" />
+
       {/* ① 名前入力画面 */}
       {status === 'input' && (
-        <div className="w-full max-w-md space-y-6">
-          <div className="bg-white p-4 rounded-2xl border border-[#E8DCC8] shadow-sm">
-            <h1 className="text-xl font-bold text-center text-[#C97B4A]">
+        <div className="w-full max-w-md space-y-6 relative">
+          <div className="bg-white p-5 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226]">
+            <h1 className="pop-heading text-2xl font-bold text-center text-[#F2684E]">
               あなたに向いている仕事＆資格診断
             </h1>
-            <p className="text-sm text-[#B5673A] text-center mt-1">
-              AI時代でも必要とされる、あなたの資質を診断します
+            <p className="text-sm text-[#4FC1B0] font-bold text-center mt-2">
+              ✨ AI時代でも必要とされる、あなたの資質を診断します ✨
             </p>
           </div>
 
-          <label className="text-sm text-[#B5673A] font-medium block">
+          <label className="text-sm text-[#8A7A65] font-bold block">
             お名前（ニックネームでもOK・空欄でも診断できます）
           </label>
           <input
@@ -140,64 +169,73 @@ export default function Home() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="例：はなこ"
-            className="w-full p-4 bg-white border border-[#D9C8AE] rounded-xl placeholder-[#B5A48C] text-[#4A3F35]"
+            className="w-full p-4 bg-white border-2 border-[#D9C8AE] rounded-2xl placeholder-[#B5A48C] text-[#4A3F35]"
           />
 
           <button
             onClick={startQuiz}
-            className="w-full py-4 bg-gradient-to-r from-[#E8A87C] to-[#D4875A] rounded-2xl font-bold text-lg text-white shadow-sm"
+            className="pop-heading w-full py-4 bg-[#F2684E] rounded-2xl font-bold text-lg text-white border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
           >
-            診断スタート
+            診断スタート 🎯
           </button>
         </div>
       )}
 
       {/* ② 質問画面 */}
       {status === 'question' && (
-        <div className="w-full max-w-md space-y-6 pt-6">
-          <p className="text-sm text-[#B5673A] text-center">
+        <div className="w-full max-w-md space-y-6 pt-6 relative">
+          <p className="text-sm text-[#4FC1B0] font-bold text-center">
             質問 {currentQuestion + 1} / {QUESTIONS.length}
           </p>
 
-          <div className="bg-white p-6 rounded-2xl border border-[#E8DCC8] shadow-sm">
-            <p className="text-base text-[#4A3F35] leading-relaxed text-center">
+          <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226]">
+            <p className="text-base text-[#4A3F35] leading-relaxed text-center font-medium">
               {QUESTIONS[currentQuestion].text}
             </p>
           </div>
 
-          <div className="flex justify-between items-center px-2">
-            <span className="text-xs text-[#A69885]">当てはまらない</span>
-            <span className="text-xs text-[#A69885]">当てはまる</span>
+          <div className="flex justify-between items-center px-1">
+            <span className="text-xs text-[#A69885] font-bold">当てはまらない</span>
+            <span className="text-xs text-[#A69885] font-bold">どちらとも言えない</span>
+            <span className="text-xs text-[#A69885] font-bold">当てはまる</span>
           </div>
 
           <div className="flex justify-between gap-2">
-            {[1, 2, 3, 4, 5].map((score) => (
-              <button
-                key={score}
-                onClick={() => selectAnswer(score)}
-                className={`flex-1 aspect-square rounded-full border-2 font-bold text-lg transition-colors ${
-                  answers[currentQuestion] === score
-                    ? 'bg-[#D98E5F] border-[#D98E5F] text-white'
-                    : 'bg-white border-[#D9C8AE] text-[#8A7A65]'
-                }`}
-              >
-                {score}
-              </button>
-            ))}
+            {[1, 2, 3, 4, 5].map((score) => {
+              const color = SCALE_COLORS[score - 1];
+              const isSelected = answers[currentQuestion] === score;
+              return (
+                <button
+                  key={score}
+                  onClick={() => selectAnswer(score)}
+                  style={{
+                    backgroundColor: isSelected ? color.bg : '#FFFFFF',
+                    borderColor: isSelected ? color.border : '#D9C8AE',
+                  }}
+                  className={`flex-1 aspect-square rounded-full border-2 font-bold text-lg transition-all ${
+                    isSelected
+                      ? 'text-white scale-110 shadow-[2px_2px_0_0_#3D3226]'
+                      : 'text-[#8A7A65]'
+                  }`}
+                >
+                  {score}
+                </button>
+              );
+            })}
           </div>
 
           <div className="flex gap-3 pt-4">
             {currentQuestion > 0 && (
               <button
                 onClick={goBack}
-                className="flex-1 py-3 border border-[#D9C8AE] rounded-xl text-[#8A7A65] bg-white"
+                className="flex-1 py-3 border-2 border-[#D9C8AE] rounded-2xl text-[#8A7A65] bg-white font-bold"
               >
                 戻る
               </button>
             )}
             <button
               onClick={goNext}
-              className="flex-1 py-3 bg-gradient-to-r from-[#E8A87C] to-[#D4875A] rounded-xl font-bold text-white"
+              className="pop-heading flex-1 py-3 bg-[#F2684E] rounded-2xl font-bold text-white border-2 border-[#3D3226] shadow-[3px_3px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
             >
               {currentQuestion < QUESTIONS.length - 1 ? '次へ' : '診断結果を見る'}
             </button>
@@ -207,21 +245,21 @@ export default function Home() {
 
       {/* ③ ローディング画面 */}
       {status === 'loading' && (
-        <div className="text-center space-y-4 pt-20">
-          <p className="text-[#8A7A65]">診断結果をまとめています...</p>
-          <div className="w-64 h-3 bg-[#E8DCC8] rounded-full mx-auto overflow-hidden">
-            <div className="h-full bg-[#D98E5F] animate-[loading_2.5s_linear_forwards]"></div>
+        <div className="text-center space-y-4 pt-20 relative">
+          <p className="text-[#8A7A65] font-bold">診断結果をまとめています... 🔍</p>
+          <div className="w-64 h-4 bg-[#E8DCC8] rounded-full mx-auto overflow-hidden border-2 border-[#3D3226]">
+            <div className="h-full bg-gradient-to-r from-[#4FC1B0] via-[#F2C24E] to-[#F2684E] animate-[loading_2.5s_linear_forwards]"></div>
           </div>
         </div>
       )}
 
       {/* ④ 結果画面 */}
       {status === 'result' && (
-        <div className="w-full max-w-sm space-y-6 pt-10 text-center">
-          <div className="bg-white p-6 rounded-2xl border border-[#E8DCC8] shadow-sm text-left">
-            <p className="text-sm mb-1 text-center text-[#8A7A65]">{displayName}に向いているのは</p>
-            <h2 className="text-xl font-bold text-[#C97B4A] text-center mb-4">
-              {result.name}
+        <div className="w-full max-w-sm space-y-6 pt-10 text-center relative">
+          <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
+            <p className="text-sm mb-1 text-center text-[#8A7A65] font-bold">{displayName}に向いているのは</p>
+            <h2 className="pop-heading text-2xl font-bold text-[#F2684E] text-center mb-4">
+              {CATEGORY_EMOJI[result.id] || '✨'} {result.name}
             </h2>
 
             {result.trait.map((line, idx) => (
@@ -231,7 +269,7 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-[#E8DCC8] shadow-sm text-left">
+          <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
             <p className="text-sm text-[#5C4F42] leading-relaxed mb-2">
               そんな{displayName}におすすめなのが、{result.name}の資格です。
             </p>
@@ -242,8 +280,8 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-[#E8DCC8] shadow-sm text-left">
-            <p className="text-sm text-[#5C4F42] leading-relaxed mb-2">
+          <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
+            <p className="text-sm text-[#5C4F42] leading-relaxed mb-2 font-bold">
               {result.name}には、こんな資格があります。
             </p>
             <p className="text-sm text-[#5C4F42] leading-relaxed">
@@ -252,12 +290,12 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="bg-white p-4 rounded-2xl border border-[#E8DCC8] shadow-sm">
-            <p className="text-sm text-[#B5673A] mb-3">
+          <div className="bg-white p-4 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226]">
+            <p className="text-sm text-[#F2684E] font-bold mb-3">
               💡 最短2ヶ月・自宅で資格取得できます。
             </p>
             {result.htmlCode ? (
-              <div className="[&_a]:block [&_a]:w-full [&_a]:py-3 [&_a]:bg-gradient-to-r [&_a]:from-[#E8A87C] [&_a]:to-[#D4875A] [&_a]:rounded-xl [&_a]:font-bold [&_a]:text-sm [&_a]:text-center [&_a]:text-white [&_a]:no-underline">
+              <div className="[&_a]:block [&_a]:w-full [&_a]:py-3 [&_a]:bg-[#F2684E] [&_a]:rounded-2xl [&_a]:font-bold [&_a]:text-sm [&_a]:text-center [&_a]:text-white [&_a]:no-underline [&_a]:border-2 [&_a]:border-[#3D3226]">
                 <AdEmbed html={result.htmlCode} />
               </div>
             ) : (
@@ -265,7 +303,7 @@ export default function Home() {
                 href={result.link || '#'}
                 target="_blank"
                 rel="noopener noreferrer sponsored"
-                className="block w-full py-3 bg-gradient-to-r from-[#E8A87C] to-[#D4875A] rounded-xl font-bold text-sm text-white"
+                className="block w-full py-3 bg-[#F2684E] rounded-2xl font-bold text-sm text-white border-2 border-[#3D3226]"
               >
                 {result.buttonLabel} →
               </a>
@@ -277,7 +315,7 @@ export default function Home() {
           {(OTHER_JOBS_LINK.htmlCode || OTHER_JOBS_LINK.link) && (
             <div className="pt-1">
               {OTHER_JOBS_LINK.htmlCode ? (
-                <div className="[&_a]:text-[#B5673A] [&_a]:underline [&_a]:text-sm">
+                <div className="[&_a]:text-[#4FC1B0] [&_a]:underline [&_a]:text-sm [&_a]:font-bold">
                   <AdEmbed html={OTHER_JOBS_LINK.htmlCode} />
                 </div>
               ) : (
@@ -285,7 +323,7 @@ export default function Home() {
                   href={OTHER_JOBS_LINK.link}
                   target="_blank"
                   rel="noopener noreferrer sponsored"
-                  className="block text-center text-[#B5673A] underline text-sm"
+                  className="block text-center text-[#4FC1B0] underline text-sm font-bold"
                 >
                   {OTHER_JOBS_LINK.label} →
                 </a>
@@ -295,7 +333,7 @@ export default function Home() {
 
           <button
             onClick={restart}
-            className="w-full text-center text-[#B5673A] underline pt-2"
+            className="w-full text-center text-[#8A7A65] underline pt-2"
           >
             もう一度診断する
           </button>
@@ -303,6 +341,12 @@ export default function Home() {
       )}
 
       <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800&display=swap');
+
+        .pop-heading {
+          font-family: 'M PLUS Rounded 1c', sans-serif;
+        }
+
         @keyframes loading {
           from {
             width: 0%;
