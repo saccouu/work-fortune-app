@@ -179,9 +179,6 @@ export default function Home() {
             >
               診断スタート 🎯
             </button>
-            <span className="pointer-events-none absolute -right-2 -bottom-2 text-2xl text-white opacity-80">
-              ✨
-            </span>
           </div>
         </div>
       )}
