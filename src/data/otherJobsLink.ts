@@ -10,5 +10,6 @@
 export const OTHER_JOBS_LINK = {
   label: 'もっと自分に合う資格があるかも',
   link: '',
-  htmlCode: '',
+  htmlCode: `<a href="https://px.a8.net/svt/ejp?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.saraschool.net%2Fcourse%2F" rel="nofollow">もっと自分に合う資格があるかも →</a>
+<img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2" alt="">`,
 };
