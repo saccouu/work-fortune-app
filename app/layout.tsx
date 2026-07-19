@@ -5,8 +5,8 @@ import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: '恋愛キャラ診断占い',
-  description: '生年月日から分かる、あなたの恋愛キャラと運勢を診断',
+  title: 'あなたに向いている仕事＆資格診断',
+  description: '11の質問で分かる、AI時代でも必要とされるあなたの資質を診断します',
 }
 
 export default function RootLayout({
