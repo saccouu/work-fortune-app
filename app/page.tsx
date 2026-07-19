@@ -143,20 +143,20 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#F6DCE6] to-[#FBF6EE] text-[#4A3F35] p-6 flex justify-center relative overflow-hidden">
+    <div className="min-h-screen bg-[#E8D3C7] text-[#4A3F35] p-6 flex justify-center relative overflow-hidden">
       {/* 背景の、ふんわりした色つきのにじみ装飾 */}
       <div className="pointer-events-none absolute -top-16 -left-16 w-56 h-56 rounded-full bg-[#DE94B0]/20 blur-3xl" />
-      <div className="pointer-events-none absolute top-24 -right-20 w-64 h-64 rounded-full bg-[#F2684E]/15 blur-3xl" />
+      <div className="pointer-events-none absolute top-24 -right-20 w-64 h-64 rounded-full bg-[#CC6152]/15 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 left-1/3 w-48 h-48 rounded-full bg-[#F2C24E]/20 blur-3xl" />
 
       {/* ① 名前入力画面 */}
       {status === 'input' && (
         <div className="w-full max-w-md space-y-6 relative">
           <div className="bg-white p-5 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226]">
-            <h1 className="pop-heading text-2xl font-bold text-center text-[#F2684E]">
+            <h1 className="pop-heading text-2xl font-bold text-center text-[#C1685C]">
               あなたに向いている仕事＆資格診断
             </h1>
-            <p className="text-sm text-[#DE94B0] font-bold text-center mt-2">
+            <p className="text-sm text-[#5C4F42] font-bold text-center mt-2">
               ✨ AI時代でも必要とされる、あなたの資質を診断します ✨
             </p>
           </div>
@@ -172,12 +172,17 @@ export default function Home() {
             className="w-full p-4 bg-white border-2 border-[#D9C8AE] rounded-2xl placeholder-[#B5A48C] text-[#4A3F35]"
           />
 
-          <button
-            onClick={startQuiz}
-            className="pop-heading w-full py-4 bg-[#F2684E] rounded-2xl font-bold text-lg text-white border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
-          >
-            診断スタート 🎯
-          </button>
+          <div className="relative">
+            <button
+              onClick={startQuiz}
+              className="pop-heading w-full py-4 bg-[#CC6152] rounded-2xl font-bold text-lg text-white border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
+            >
+              診断スタート 🎯
+            </button>
+            <span className="pointer-events-none absolute -right-2 -bottom-2 text-2xl text-white opacity-80">
+              ✨
+            </span>
+          </div>
         </div>
       )}
 
@@ -235,7 +240,7 @@ export default function Home() {
             )}
             <button
               onClick={goNext}
-              className="pop-heading flex-1 py-3 bg-[#F2684E] rounded-2xl font-bold text-white border-2 border-[#3D3226] shadow-[3px_3px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
+              className="pop-heading flex-1 py-3 bg-[#CC6152] rounded-2xl font-bold text-white border-2 border-[#3D3226] shadow-[3px_3px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
             >
               {currentQuestion < QUESTIONS.length - 1 ? '次へ' : '診断結果を見る'}
             </button>
@@ -248,7 +253,7 @@ export default function Home() {
         <div className="text-center space-y-4 pt-20 relative">
           <p className="text-[#8A7A65] font-bold">診断結果をまとめています... 🔍</p>
           <div className="w-64 h-4 bg-[#E8DCC8] rounded-full mx-auto overflow-hidden border-2 border-[#3D3226]">
-            <div className="h-full bg-gradient-to-r from-[#DE94B0] via-[#F2C24E] to-[#F2684E] animate-[loading_2.5s_linear_forwards]"></div>
+            <div className="h-full bg-gradient-to-r from-[#DE94B0] via-[#F2C24E] to-[#CC6152] animate-[loading_2.5s_linear_forwards]"></div>
           </div>
         </div>
       )}
@@ -258,7 +263,7 @@ export default function Home() {
         <div className="w-full max-w-sm space-y-6 pt-10 text-center relative">
           <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
             <p className="text-sm mb-1 text-center text-[#8A7A65] font-bold">{displayName}に向いているのは</p>
-            <h2 className="pop-heading text-2xl font-bold text-[#F2684E] text-center mb-4">
+            <h2 className="pop-heading text-2xl font-bold text-[#CC6152] text-center mb-4">
               {CATEGORY_EMOJI[result.id] || '✨'} {result.name}
             </h2>
 
@@ -291,11 +296,11 @@ export default function Home() {
           </div>
 
           <div className="bg-white p-4 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226]">
-            <p className="text-sm text-[#F2684E] font-bold mb-3">
+            <p className="text-sm text-[#CC6152] font-bold mb-3">
               💡 最短2ヶ月・自宅で資格取得できます。
             </p>
             {result.htmlCode ? (
-              <div className="[&_a]:block [&_a]:w-full [&_a]:py-3 [&_a]:bg-[#F2684E] [&_a]:rounded-2xl [&_a]:font-bold [&_a]:text-sm [&_a]:text-center [&_a]:text-white [&_a]:no-underline [&_a]:border-2 [&_a]:border-[#3D3226]">
+              <div className="[&_a]:block [&_a]:w-full [&_a]:py-3 [&_a]:bg-[#CC6152] [&_a]:rounded-2xl [&_a]:font-bold [&_a]:text-sm [&_a]:text-center [&_a]:text-white [&_a]:no-underline [&_a]:border-2 [&_a]:border-[#3D3226]">
                 <AdEmbed html={result.htmlCode} />
               </div>
             ) : (
@@ -303,7 +308,7 @@ export default function Home() {
                 href={result.link || '#'}
                 target="_blank"
                 rel="noopener noreferrer sponsored"
-                className="block w-full py-3 bg-[#F2684E] rounded-2xl font-bold text-sm text-white border-2 border-[#3D3226]"
+                className="block w-full py-3 bg-[#CC6152] rounded-2xl font-bold text-sm text-white border-2 border-[#3D3226]"
               >
                 {result.buttonLabel} →
               </a>
