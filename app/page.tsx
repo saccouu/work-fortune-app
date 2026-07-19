@@ -317,7 +317,7 @@ export default function Home() {
           {(OTHER_JOBS_LINK.htmlCode || OTHER_JOBS_LINK.link) && (
             <div className="pt-1">
               {OTHER_JOBS_LINK.htmlCode ? (
-                <div className="[&_a]:text-[#F2924E] [&_a]:underline [&_a]:text-sm [&_a]:font-bold">
+                <div className="[&_a]:text-[#B5673A] [&_a]:underline [&_a]:text-sm [&_a]:font-bold">
                   <AdEmbed html={OTHER_JOBS_LINK.htmlCode} />
                 </div>
               ) : (
