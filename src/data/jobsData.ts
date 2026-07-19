@@ -42,6 +42,8 @@ export const JOBS_DATA = [
     qualifications: ['ピラティスインストラクター', '整体セラピスト', 'リンパケアセラピスト'],
     buttonLabel: '美容・健康・ボディケア系の資格をもっと見てみる',
     link: '',
+    htmlCode: `<a href="https://px.a8.net/svt/ejp?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.saraschool.net%2Fbiyo%2F" rel="nofollow">美容・健康・ボディケア系の資格をもっと見てみる</a>
+<img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2" alt="">`,
   },
   {
     id: 'uranai',
@@ -57,6 +59,8 @@ export const JOBS_DATA = [
     qualifications: ['タロットカード占い', '西洋占星術', '四柱推命'],
     buttonLabel: '占い師・スピリチュアル系の資格をもっと見てみる',
     link: '',
+    htmlCode: `<a href="https://px.a8.net/svt/ejp?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.saraschool.net%2Furanai%2F" rel="nofollow">占い師・スピリチュアル系の資格をもっと見てみる</a>
+<img border="0" width="1" height="1" src="https://www16.a8.net/0.gif?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2" alt="">`,
   },
   {
     id: 'syoku',
@@ -72,6 +76,8 @@ export const JOBS_DATA = [
     qualifications: ['食育健康アドバイザー', '介護食マイスター', '漢方コーディネーター'],
     buttonLabel: '食べ物系の資格をもっと見てみる',
     link: '',
+    htmlCode: `<a href="https://px.a8.net/svt/ejp?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.saraschool.net%2Fsyoku%2F" rel="nofollow">食・料理・栄養系の資格をもっと見てみる</a>
+<img border="0" width="1" height="1" src="https://www14.a8.net/0.gif?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2" alt="">`,
   },
   {
     id: 'syugei',
@@ -87,6 +93,8 @@ export const JOBS_DATA = [
     qualifications: ['ハンドメイドマイスター', 'DIY工作アドバイザー', '石鹸アーティスト'],
     buttonLabel: '手芸・ハンドメイド系の資格をもっと見てみる',
     link: '',
+    htmlCode: `<a href="https://px.a8.net/svt/ejp?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.saraschool.net%2Fsyugei%2F" rel="nofollow">手芸・ハンドメイド系の資格をもっと見てみる</a>
+<img border="0" width="1" height="1" src="https://www12.a8.net/0.gif?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2" alt="">`,
   },
   {
     id: 'pet',
@@ -101,6 +109,8 @@ export const JOBS_DATA = [
     qualifications: ['ペットトリマー', 'ドッグトレーニングアドバイザー', 'ペットシッターアドバイザー'],
     buttonLabel: '動物・ペット系の資格をもっと見てみる',
     link: '',
+    htmlCode: `<a href="https://px.a8.net/svt/ejp?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.saraschool.net%2Fpet%2F" rel="nofollow">動物・ペット系の資格をもっと見てみる</a>
+<img border="0" width="1" height="1" src="https://www15.a8.net/0.gif?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2" alt="">`,
   },
   {
     id: 'katazuke',
@@ -116,6 +126,8 @@ export const JOBS_DATA = [
     qualifications: ['収納マイスター', '住まいアドバイザー', 'クリーニングアドバイザー'],
     buttonLabel: '片付け・整理収納系の資格をもっと見てみる',
     link: '',
+    htmlCode: `<a href="https://px.a8.net/svt/ejp?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.saraschool.net%2Fkataduke%2F" rel="nofollow">片付け・整理収納系の資格をもっと見てみる</a>
+<img border="0" width="1" height="1" src="https://www10.a8.net/0.gif?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2" alt="">`,
   },
   {
     id: 'syokubutsu',
@@ -131,6 +143,8 @@ export const JOBS_DATA = [
     qualifications: ['フラワーアレンジメントデザイナー', 'ガーデニングプランナー', 'ハーブインストラクター'],
     buttonLabel: '植物・花・園芸系の資格をもっと見てみる',
     link: '',
+    htmlCode: `<a href="https://px.a8.net/svt/ejp?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.saraschool.net%2Fsyokubutsu%2F" rel="nofollow">植物・花・園芸系の資格をもっと見てみる</a>
+<img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2" alt="">`,
   },
   {
     id: 'design',
@@ -146,5 +160,7 @@ export const JOBS_DATA = [
     qualifications: ['インテリアデザイナー', '空間ディスプレイデザイナー'],
     buttonLabel: 'デザイン・デザイナー系の資格をもっと見てみる',
     link: '',
+    htmlCode: `<a href="https://px.a8.net/svt/ejp?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.saraschool.net%2Fdesin%2F" rel="nofollow">デザイン・デザイナー系の資格をもっと見てみる</a>
+<img border="0" width="1" height="1" src="https://www11.a8.net/0.gif?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2" alt="">`,
   },
 ];
