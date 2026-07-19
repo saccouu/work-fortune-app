@@ -26,7 +26,7 @@ export const QUESTIONS = [
   },
   {
     text: '自分の体調管理や、体を動かすことを大事にしている',
-    scores: ['biyo', 'pet'],
+    scores: ['biyo', 'pet', 'syoku'],
   },
   {
     text: '何かを作るとき、手先を使って丁寧に仕上げるのが好きだ',
@@ -34,7 +34,7 @@ export const QUESTIONS = [
   },
   {
     text: '動物や子供を見ると、自然と目で追ってしまう',
-    scores: ['pet', 'biyo', 'mentality'],
+    scores: ['pet', 'biyo'],
   },
   {
     text: '家族や友人の食事や栄養バランスが、つい気になってしまう',
