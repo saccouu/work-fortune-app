@@ -109,28 +109,36 @@ export default function Home() {
 
   // 集計処理
   const calculateResult = () => {
-    // 各カテゴリの得点を集計するための入れ物
+    // 各カテゴリの得点合計と、登場回数を集計するための入れ物
     const scoreMap: { [key: string]: number } = {};
+    const countMap: { [key: string]: number } = {};
     JOBS_DATA.forEach((job) => {
       scoreMap[job.id] = 0;
+      countMap[job.id] = 0;
     });
 
     QUESTIONS.forEach((question, index) => {
       const answerScore = answers[index] ?? 0;
       question.scores.forEach((categoryId) => {
         scoreMap[categoryId] += answerScore;
+        countMap[categoryId] += 1;
       });
     });
 
-    // 一番得点が高いカテゴリを探す(同点の場合は先に出てきた方=JOBS_DATAの並び順を優先)
-    let topJob = JOBS_DATA[0];
-    let topScore = -1;
-    JOBS_DATA.forEach((job) => {
-      if (scoreMap[job.id] > topScore) {
-        topScore = scoreMap[job.id];
-        topJob = job;
-      }
+    // 「合計点」ではなく「平均点」で比較する
+    // (質問への登場回数がカテゴリごとに違うため、合計点だと
+    //  登場回数の多いカテゴリが不公平に有利になってしまうのを防ぐ)
+    const averages = JOBS_DATA.map((job) => {
+      const average = countMap[job.id] > 0 ? scoreMap[job.id] / countMap[job.id] : 0;
+      return { job, average: Math.round(average * 1000) / 1000 };
     });
+    const topAverage = Math.max(...averages.map((a) => a.average));
+
+    // 同点(一番高い平均点のカテゴリが複数)だった場合、
+    // 常に同じカテゴリに偏らないよう、その中からランダムに選ぶ
+    const topCandidates = averages.filter((a) => a.average === topAverage);
+    const topJob =
+      topCandidates[Math.floor(Math.random() * topCandidates.length)].job;
 
     setResult(topJob);
     setStatus('loading');
@@ -186,7 +194,7 @@ export default function Home() {
       {/* ② 質問画面 */}
       {status === 'question' && (
         <div className="w-full max-w-md space-y-6 pt-6 relative">
-          <p className="text-sm text-[#B5673A] font-bold text-center">
+          <p className="text-sm text-[#F2924E] font-bold text-center">
             質問 {currentQuestion + 1} / {QUESTIONS.length}
           </p>
 
@@ -317,7 +325,7 @@ export default function Home() {
           {(OTHER_JOBS_LINK.htmlCode || OTHER_JOBS_LINK.link) && (
             <div className="pt-1">
               {OTHER_JOBS_LINK.htmlCode ? (
-                <div className="[&_a]:text-[#B5673A] [&_a]:underline [&_a]:text-sm [&_a]:font-bold">
+                <div className="[&_a]:text-[#F2924E] [&_a]:underline [&_a]:text-sm [&_a]:font-bold">
                   <AdEmbed html={OTHER_JOBS_LINK.htmlCode} />
                 </div>
               ) : (
