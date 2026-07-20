@@ -160,6 +160,11 @@ export default function Home() {
       {/* ① 名前入力画面 */}
       {status === 'input' && (
         <div className="w-full max-w-md space-y-6 relative">
+          <img
+            src="/ads/top.png"
+            alt="仕事＆資格診断"
+            className="w-full max-w-xs mx-auto"
+          />
           <div className="bg-[#FBF1E6] p-1.5 rounded-3xl border-2 border-[#CC6152] shadow-[4px_4px_0_0_#3D3226]">
             <div className="bg-white p-5 rounded-2xl border-2 border-[#E8B89A]">
               <h1 className="pop-heading text-2xl font-bold text-center text-[#C1685C]">
@@ -199,6 +204,11 @@ export default function Home() {
       {/* ② 質問画面 */}
       {status === 'question' && (
         <div className="w-full max-w-md space-y-6 pt-6 relative">
+          <img
+            src={`/ads/q${currentQuestion + 1}.png`}
+            alt={`質問${currentQuestion + 1}`}
+            className="w-full max-w-xs mx-auto"
+          />
           <div className="flex justify-center">
             <p
               className="text-sm text-white font-bold text-center bg-[#CC6152] px-6 py-1.5 border-2 border-[#3D3226]"
@@ -269,7 +279,12 @@ export default function Home() {
 
       {/* ③ ローディング画面 */}
       {status === 'loading' && (
-        <div className="text-center space-y-4 pt-20 relative">
+        <div className="text-center space-y-4 pt-16 relative">
+          <img
+            src="/ads/loading.png"
+            alt="診断中"
+            className="w-full max-w-xs mx-auto"
+          />
           <p className="text-[#8A7A65] font-bold">診断結果をまとめています... 🔍</p>
           <div className="w-64 h-4 bg-[#E8DCC8] rounded-full mx-auto overflow-hidden border-2 border-[#3D3226]">
             <div className="h-full bg-gradient-to-r from-[#DE94B0] via-[#F2C24E] to-[#CC6152] animate-[loading_2.5s_linear_forwards]"></div>
@@ -280,6 +295,11 @@ export default function Home() {
       {/* ④ 結果画面 */}
       {status === 'result' && (
         <div className="w-full max-w-sm space-y-6 pt-10 text-center relative">
+          <img
+            src="/ads/result.png"
+            alt="診断結果"
+            className="w-full max-w-xs mx-auto"
+          />
           <div className="bg-[#FBF1E6] p-1.5 rounded-3xl border-2 border-[#CC6152] shadow-[4px_4px_0_0_#3D3226]">
             <div className="bg-white p-6 rounded-2xl border-2 border-[#E8B89A] text-left">
               <p className="text-sm mb-1 text-center text-[#8A7A65] font-bold">🍴 {displayName}に向いているのは</p>
