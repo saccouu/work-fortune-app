@@ -191,7 +191,7 @@ export default function Home() {
 
           {/* 前景：画像内の「メモ帳」の余白部分に、実際の入力欄・ボタンを重ねて配置 */}
           <div
-            className="absolute flex flex-col justify-start gap-1.5 px-[9%]"
+            className="absolute flex flex-col justify-start gap-2 px-[9%]"
             style={{ top: '74%', left: 0, right: 0 }}
           >
             <input
