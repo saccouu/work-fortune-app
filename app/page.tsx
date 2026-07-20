@@ -220,7 +220,7 @@ export default function Home() {
             <img
               src="/ads/q1-card.png"
               alt="質問1"
-              className="w-full block"
+              className="w-full block -mb-6"
             />
           ) : (
             <>
