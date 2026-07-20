@@ -191,7 +191,7 @@ export default function Home() {
 
           {/* 前景：画像内の「メモ帳」の余白部分に、実際の入力欄・ボタンを重ねて配置 */}
           <div
-            className="absolute flex flex-col justify-start gap-0.5 px-[9%]"
+            className="absolute flex flex-col justify-start gap-1.5 px-[9%]"
             style={{ top: '72%', left: 0, right: 0 }}
           >
             <input
@@ -239,7 +239,7 @@ export default function Home() {
 
           <div className="flex justify-between items-center px-1 pt-6">
             <span className="text-xs text-[#A69885] font-bold">当てはまらない</span>
-            <span className="text-xs text-[#A69885] font-bold">どちらとも<br />言えない</span>
+            <span className="text-xs text-[#A69885] font-bold text-center">どちらとも<br />言えない</span>
             <span className="text-xs text-[#A69885] font-bold">当てはまる</span>
           </div>
 
