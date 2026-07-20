@@ -191,7 +191,7 @@ export default function Home() {
 
           {/* 前景：画像内の「メモ帳」の余白部分に、実際の入力欄・ボタンを重ねて配置 */}
           <div
-            className="absolute flex flex-col justify-start gap-1 px-[9%]"
+            className="absolute flex flex-col justify-start gap-0.5 px-[9%]"
             style={{ top: '74%', left: 0, right: 0 }}
           >
             <input
@@ -205,7 +205,7 @@ export default function Home() {
           <p className="text-xs text-[#8A7A65] text-center">ニックネームでも空欄でもOKです</p>　
             <button
   onClick={startQuiz}
-  className="pop-heading w-full py-3 bg-[#CC6152] rounded-xl font-bold text-lg text-white border-2 border-[#3D3226] shadow-[3px_3px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
+  className="pop-heading w-full py-3 bg-[#CC6152] rounded-xl font-bold text-xl text-white border-2 border-[#3D3226] shadow-[3px_3px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
 >
   診断スタート 🎯
 </button>
