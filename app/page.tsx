@@ -181,15 +181,12 @@ export default function Home() {
     <div className="min-h-screen bg-[#F7E3DB] text-[#4A3F35] p-6 flex justify-center relative overflow-hidden">
       {/* ① 名前入力画面 */}
       {status === 'input' && (
-        <div
-          className="w-full max-w-md relative mx-auto"
-          style={{ aspectRatio: '454 / 781' }}
-        >
+        <div className="w-full max-w-md relative mx-auto">
           {/* 背景：全体デザイン画像(タイトル・イラスト・メモ帳の余白まで描かれています) */}
           <img
             src="/ads/top-full.png"
             alt="あなたにピッタリの資格診断"
-            className="absolute inset-0 w-full h-full object-contain"
+            className="w-full h-auto block"
           />
 
           {/* 前景：画像内の「メモ帳」の余白部分に、実際の入力欄・ボタンを重ねて配置 */}
