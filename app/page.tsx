@@ -178,7 +178,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7E3DB] text-[#4A3F35] p-6 flex justify-center relative overflow-hidden">
+    <div className="min-h-screen bg-[#F7E3DB] text-[#4A3F35] p-6 flex justify-center items-center relative overflow-hidden">
       {/* ① 名前入力画面 */}
       {status === 'input' && (
         <div className="w-full max-w-md relative mx-auto">
@@ -191,19 +191,20 @@ export default function Home() {
 
           {/* 前景：画像内の「メモ帳」の余白部分に、実際の入力欄・ボタンを重ねて配置 */}
           <div
-            className="absolute flex flex-col justify-center gap-3 px-[9%]"
-            style={{ top: '65%', bottom: '6%', left: 0, right: 0 }}
+            className="absolute flex flex-col justify-start gap-2 px-[9%]"
+            style={{ top: '60%', left: 0, right: 0 }}
           >
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="お名前（ニックネームでもOK）"
-              className="w-full p-3 bg-white/90 border border-[#D9C8AE] rounded-xl placeholder-[#B5A48C] text-[#4A3F35] text-sm text-center"
+              style={{ fontSize: '16px' }}
+              className="w-full p-3 bg-white/90 border border-[#D9C8AE] rounded-xl placeholder-[#B5A48C] text-[#4A3F35] text-center"
             />
             <button
               onClick={startQuiz}
-              className="pop-heading w-full py-3 bg-[#CC6152] rounded-xl font-bold text-white border-2 border-[#3D3226] shadow-[3px_3px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
+              className="pop-heading w-full py-2.5 bg-[#CC6152] rounded-xl font-bold text-white border-2 border-[#3D3226] shadow-[3px_3px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
             >
               診断スタート 🎯
             </button>
