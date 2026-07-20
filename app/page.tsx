@@ -178,7 +178,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-dvh bg-[#F7E3DB] text-[#4A3F35] p-6 flex justify-center items-start relative overflow-hidden">
+    <div className="min-h-dvh bg-[#F7E3DB] text-[#4A3F35] p-6 flex justify-center items-center relative overflow-hidden">
       {/* ① 名前入力画面 */}
       {status === 'input' && (
         <div className="w-full max-w-md relative mx-auto">
@@ -220,7 +220,7 @@ export default function Home() {
             src={`/ads/q${currentQuestion + 1}-card.png`}
             alt={`質問${currentQuestion + 1}`}
             className="w-full block"
-            style={{ marginBottom: '0px' }}
+            style={{ marginBottom: '-250px' }}
           />
 
           <div className="flex justify-between items-center px-1">
