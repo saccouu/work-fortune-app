@@ -178,7 +178,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-dvh bg-[#F7E3DB] text-[#4A3F35] p-6 flex justify-center items-center relative overflow-hidden">
+    <div className="min-h-dvh bg-[#F7E3DB] text-[#4A3F35] p-6 flex justify-center items-start relative overflow-hidden">
       {/* ① 名前入力画面 */}
       {status === 'input' && (
         <div className="w-full max-w-md relative mx-auto">
