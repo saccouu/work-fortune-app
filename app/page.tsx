@@ -215,7 +215,7 @@ export default function Home() {
 
       {/* ② 質問画面 */}
       {status === 'question' && (
-        <div className="w-full max-w-md space-y-4 pt-8 relative">
+        <div className="w-full max-w-md space-y-2 pt-1 relative">
           {currentQuestion === 0 ? (
             <img
               src="/ads/q1-card.png"
@@ -239,11 +239,11 @@ export default function Home() {
           )}
 
           <div className="flex justify-between items-center px-1 pt-1">
-            <span className="flex-1 text-xs text-[#A69885] font-bold text-center">当てはまらない</span>
-            <span className="flex-1 text-xs text-[#A69885] font-bold text-center"></span>
-            <span className="flex-1 text-xs text-[#A69885] font-bold text-center">どちらとも<br />言えない</span>
-            <span className="flex-1 text-xs text-[#A69885] font-bold text-center"></span>
-            <span className="flex-1 text-xs text-[#A69885] font-bold text-center">当てはまる</span>
+            <span className="flex-1 text-[10px] text-[#A69885] font-bold text-center">当てはまらない</span>
+            <span className="flex-1 text-[10px] text-[#A69885] font-bold text-center"></span>
+            <span className="flex-1 text-[10px] text-[#A69885] font-bold text-center">どちらとも<br />言えない</span>
+            <span className="flex-1 text-[10px] text-[#A69885] font-bold text-center"></span>
+            <span className="flex-1 text-[10px] text-[#A69885] font-bold text-center">当てはまる</span>
           </div>
 
           <div className="flex justify-between gap-2">
@@ -268,7 +268,9 @@ export default function Home() {
               );
             })}
           </div>
-
+<p className="text-xs text-[#8A7A65] text-center pt-1">
+            数字をタップしてください
+          </p>
           <div className="flex gap-3 pt-6">
             {currentQuestion > 0 && (
               <button
