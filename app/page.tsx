@@ -237,11 +237,13 @@ export default function Home() {
             </>
           )}
 
-          <div className="flex justify-between items-center px-1 pt-6">
-            <span className="text-xs text-[#A69885] font-bold">当てはまらない</span>
-            <span className="text-xs text-[#A69885] font-bold text-center">どちらとも<br />言えない</span>
-            <span className="text-xs text-[#A69885] font-bold">当てはまる</span>
-          </div>
+<div className="flex justify-between items-center px-1 pt-1">
+  <span className="flex-1 text-xs text-[#A69885] font-bold text-center">当てはまらない</span>
+  <span className="flex-1 text-xs text-[#A69885] font-bold text-center"></span>
+  <span className="flex-1 text-xs text-[#A69885] font-bold text-center">どちらとも<br />言えない</span>
+  <span className="flex-1 text-xs text-[#A69885] font-bold text-center"></span>
+  <span className="flex-1 text-xs text-[#A69885] font-bold text-center">当てはまる</span>
+</div>
 
           <div className="flex justify-between gap-2">
             {[1, 2, 3, 4, 5].map((score) => {
@@ -265,15 +267,7 @@ export default function Home() {
               );
             })}
           </div>
-
-          {currentQuestion > 0 && (
-            <img
-              src={`/ads/q${currentQuestion + 1}.png`}
-              alt={`質問${currentQuestion + 1}`}
-              className="w-40 mx-auto pt-2"
-            />
-          )}
-
+          
           <div className="flex gap-3 pt-6">
             {currentQuestion > 0 && (
               <button
