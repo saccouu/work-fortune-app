@@ -221,7 +221,7 @@ export default function Home() {
               src="/ads/q1-card.png"
               alt="質問1"
               className="w-full block"
-              style={{ marginBottom: '-100px' }}
+              style={{ marginBottom: '-150px' }}
             />
           ) : (
             <>
