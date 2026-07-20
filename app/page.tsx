@@ -160,13 +160,15 @@ export default function Home() {
       {/* ① 名前入力画面 */}
       {status === 'input' && (
         <div className="w-full max-w-md space-y-6 relative">
-          <div className="bg-white p-5 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226]">
-            <h1 className="pop-heading text-2xl font-bold text-center text-[#C1685C]">
-              あなたに向いている仕事＆資格診断
-            </h1>
-            <p className="text-sm text-[#5C4F42] font-bold text-center mt-2">
-              ✨ AI時代でも必要とされる、あなたの資質を診断します ✨
-            </p>
+          <div className="bg-[#FBF1E6] p-1.5 rounded-3xl border-2 border-[#CC6152] shadow-[4px_4px_0_0_#3D3226]">
+            <div className="bg-white p-5 rounded-2xl border-2 border-[#E8B89A]">
+              <h1 className="pop-heading text-2xl font-bold text-center text-[#C1685C]">
+                📖 あなたに向いている仕事＆資格診断 ✨
+              </h1>
+              <p className="text-sm text-[#5C4F42] font-bold text-center mt-2">
+                ✨ AI時代でも必要とされる、あなたの資質を診断します ✨
+              </p>
+            </div>
           </div>
 
           <label className="text-sm text-[#8A7A65] font-bold block">
@@ -187,6 +189,9 @@ export default function Home() {
             >
               診断スタート 🎯
             </button>
+            <span className="pointer-events-none absolute -right-2 -bottom-2 text-2xl text-white opacity-80">
+              ✨
+            </span>
           </div>
         </div>
       )}
@@ -194,14 +199,24 @@ export default function Home() {
       {/* ② 質問画面 */}
       {status === 'question' && (
         <div className="w-full max-w-md space-y-6 pt-6 relative">
-          <p className="text-sm text-[#C1685C] font-bold text-center">
-            質問 {currentQuestion + 1} / {QUESTIONS.length}
-          </p>
-
-          <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226]">
-            <p className="text-base text-[#4A3F35] leading-relaxed text-center font-medium">
-              {QUESTIONS[currentQuestion].text}
+          <div className="flex justify-center">
+            <p
+              className="text-sm text-white font-bold text-center bg-[#CC6152] px-6 py-1.5 border-2 border-[#3D3226]"
+              style={{
+                clipPath:
+                  'polygon(6% 0%, 94% 0%, 100% 50%, 94% 100%, 6% 100%, 0% 50%)',
+              }}
+            >
+              質問 {currentQuestion + 1} / {QUESTIONS.length}
             </p>
+          </div>
+
+          <div className="bg-[#FBF1E6] p-1.5 rounded-3xl border-2 border-[#CC6152] shadow-[4px_4px_0_0_#3D3226]">
+            <div className="bg-white p-6 rounded-2xl border-2 border-[#E8B89A]">
+              <p className="text-base text-[#4A3F35] leading-relaxed text-center font-medium">
+                {QUESTIONS[currentQuestion].text}
+              </p>
+            </div>
           </div>
 
           <div className="flex justify-between items-center px-1">
@@ -212,15 +227,14 @@ export default function Home() {
 
           <div className="flex justify-between gap-2">
             {[1, 2, 3, 4, 5].map((score) => {
-              const color = SCALE_COLORS[score - 1];
               const isSelected = answers[currentQuestion] === score;
               return (
                 <button
                   key={score}
                   onClick={() => selectAnswer(score)}
                   style={{
-                    backgroundColor: isSelected ? color.bg : '#FFFFFF',
-                    borderColor: isSelected ? color.border : '#D9C8AE',
+                    backgroundColor: isSelected ? '#E8B84A' : '#FFFFFF',
+                    borderColor: isSelected ? '#B5892A' : '#D9C8AE',
                   }}
                   className={`flex-1 aspect-square rounded-full border-2 font-bold text-lg transition-all ${
                     isSelected
@@ -266,17 +280,19 @@ export default function Home() {
       {/* ④ 結果画面 */}
       {status === 'result' && (
         <div className="w-full max-w-sm space-y-6 pt-10 text-center relative">
-          <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
-            <p className="text-sm mb-1 text-center text-[#8A7A65] font-bold">{displayName}に向いているのは</p>
-            <h2 className="pop-heading text-2xl font-bold text-[#CC6152] text-center mb-4">
-              {CATEGORY_EMOJI[result.id] || '✨'} {result.name}
-            </h2>
+          <div className="bg-[#FBF1E6] p-1.5 rounded-3xl border-2 border-[#CC6152] shadow-[4px_4px_0_0_#3D3226]">
+            <div className="bg-white p-6 rounded-2xl border-2 border-[#E8B89A] text-left">
+              <p className="text-sm mb-1 text-center text-[#8A7A65] font-bold">🍴 {displayName}に向いているのは</p>
+              <h2 className="pop-heading text-2xl font-bold text-[#CC6152] text-center mb-4">
+                {CATEGORY_EMOJI[result.id] || '✨'} {result.name}
+              </h2>
 
-            {result.trait.map((line, idx) => (
-              <p key={idx} className="text-sm text-[#5C4F42] leading-relaxed">
-                {line.replace('〇〇さん', displayName)}
-              </p>
-            ))}
+              {result.trait.map((line, idx) => (
+                <p key={idx} className="text-sm text-[#5C4F42] leading-relaxed">
+                  {line.replace('〇〇さん', displayName)}
+                </p>
+              ))}
+            </div>
           </div>
 
           <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
@@ -325,7 +341,7 @@ export default function Home() {
           {(OTHER_JOBS_LINK.htmlCode || OTHER_JOBS_LINK.link) && (
             <div className="pt-1">
               {OTHER_JOBS_LINK.htmlCode ? (
-                <div className="[&_a]:text-[#C1685C] [&_a]:underline [&_a]:text-sm [&_a]:font-bold">
+                <div className="[&_a]:text-[#F2924E] [&_a]:underline [&_a]:text-sm [&_a]:font-bold">
                   <AdEmbed html={OTHER_JOBS_LINK.htmlCode} />
                 </div>
               ) : (
