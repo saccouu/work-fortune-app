@@ -205,7 +205,7 @@ export default function Home() {
           <p className="text-xs text-[#8A7A65] text-center">ニックネームでも空欄でもOKです</p>　
             <button
   onClick={startQuiz}
-  className="pop-heading w-full py-4 bg-[#CC6152] rounded-xl font-bold text-lg text-white border-2 border-[#3D3226] shadow-[3px_3px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
+  className="pop-heading w-full py-3 bg-[#CC6152] rounded-xl font-bold text-lg text-white border-2 border-[#3D3226] shadow-[3px_3px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
 >
   診断スタート 🎯
 </button>
