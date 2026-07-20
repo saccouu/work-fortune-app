@@ -198,13 +198,11 @@ export default function Home() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="名前を入力してください"
+              placeholder="ここに名前を入力してください"
               style={{ fontSize: '16px' }}
               className="w-full p-3 bg-white/90 border border-[#D9C8AE] rounded-xl placeholder-[#B5A48C] text-[#4A3F35] text-center"
             />
-          <p className="text-xs text-[#8A7A65] text-center">
-             ニックネームでも空欄でもOKです
-　　　　　　</p>
+          <p className="text-xs text-[#8A7A65] text-center">ニックネームでも空欄でもOKです</p>　
             <button
   onClick={startQuiz}
   className="pop-heading w-full py-4 bg-[#CC6152] rounded-xl font-bold text-lg text-white border-2 border-[#3D3226] shadow-[3px_3px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
