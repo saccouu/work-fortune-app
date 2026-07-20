@@ -274,7 +274,7 @@ export default function Home() {
             />
           )}
 
-          <div className="flex gap-3 pt-2">
+          <div className="flex gap-3 pt-6">
             {currentQuestion > 0 && (
               <button
                 onClick={goBack}
