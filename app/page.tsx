@@ -159,24 +159,20 @@ export default function Home() {
 
       {/* ① 名前入力画面 */}
       {status === 'input' && (
-        <div className="w-full max-w-md space-y-6 relative">
+        <div className="w-full max-w-md space-y-4 relative">
           <img
             src="/ads/top.png"
             alt="仕事＆資格診断"
-            className="w-full max-w-xs mx-auto"
+            className="w-48 mx-auto"
           />
-          <div className="bg-[#FBF1E6] p-1.5 rounded-3xl border-2 border-[#CC6152] shadow-[4px_4px_0_0_#3D3226]">
-            <div className="bg-white p-5 rounded-2xl border-2 border-[#E8B89A]">
-              <h1 className="pop-heading text-2xl font-bold text-center text-[#C1685C]">
-                📖 あなたに向いている仕事＆資格診断 ✨
-              </h1>
-              <p className="text-sm text-[#5C4F42] font-bold text-center mt-2">
-                ✨ AI時代でも必要とされる、あなたの資質を診断します ✨
-              </p>
-            </div>
-          </div>
+          <h1 className="pop-heading text-xl font-bold text-center text-[#C1685C]">
+            あなたに向いている<br />資格診断
+          </h1>
+          <p className="text-sm text-[#5C4F42] font-bold text-center">
+            ✨ AI時代でも必要とされる、あなたの資質を診断します ✨
+          </p>
 
-          <label className="text-sm text-[#8A7A65] font-bold block">
+          <label className="text-sm text-[#8A7A65] font-bold block pt-2">
             お名前（ニックネームでもOK・空欄でも診断できます）
           </label>
           <input
@@ -203,30 +199,20 @@ export default function Home() {
 
       {/* ② 質問画面 */}
       {status === 'question' && (
-        <div className="w-full max-w-md space-y-6 pt-6 relative">
+        <div className="w-full max-w-md space-y-4 pt-4 relative">
           <img
             src={`/ads/q${currentQuestion + 1}.png`}
             alt={`質問${currentQuestion + 1}`}
-            className="w-full max-w-xs mx-auto"
+            className="w-48 mx-auto"
           />
-          <div className="flex justify-center">
-            <p
-              className="text-sm text-white font-bold text-center bg-[#CC6152] px-6 py-1.5 border-2 border-[#3D3226]"
-              style={{
-                clipPath:
-                  'polygon(6% 0%, 94% 0%, 100% 50%, 94% 100%, 6% 100%, 0% 50%)',
-              }}
-            >
-              質問 {currentQuestion + 1} / {QUESTIONS.length}
-            </p>
-          </div>
+          <p className="text-sm text-[#CC6152] font-bold text-center">
+            質問 {currentQuestion + 1} / {QUESTIONS.length}
+          </p>
 
-          <div className="bg-[#FBF1E6] p-1.5 rounded-3xl border-2 border-[#CC6152] shadow-[4px_4px_0_0_#3D3226]">
-            <div className="bg-white p-6 rounded-2xl border-2 border-[#E8B89A]">
-              <p className="text-base text-[#4A3F35] leading-relaxed text-center font-medium">
-                {QUESTIONS[currentQuestion].text}
-              </p>
-            </div>
+          <div className="bg-white p-6 rounded-2xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226]">
+            <p className="text-base text-[#4A3F35] leading-relaxed text-center font-medium">
+              {QUESTIONS[currentQuestion].text}
+            </p>
           </div>
 
           <div className="flex justify-between items-center px-1">
@@ -283,7 +269,7 @@ export default function Home() {
           <img
             src="/ads/loading.png"
             alt="診断中"
-            className="w-full max-w-xs mx-auto"
+            className="w-48 mx-auto"
           />
           <p className="text-[#8A7A65] font-bold">診断結果をまとめています... 🔍</p>
           <div className="w-64 h-4 bg-[#E8DCC8] rounded-full mx-auto overflow-hidden border-2 border-[#3D3226]">
@@ -294,25 +280,23 @@ export default function Home() {
 
       {/* ④ 結果画面 */}
       {status === 'result' && (
-        <div className="w-full max-w-sm space-y-6 pt-10 text-center relative">
+        <div className="w-full max-w-sm space-y-4 pt-6 text-center relative">
           <img
             src="/ads/result.png"
             alt="診断結果"
-            className="w-full max-w-xs mx-auto"
+            className="w-48 mx-auto"
           />
-          <div className="bg-[#FBF1E6] p-1.5 rounded-3xl border-2 border-[#CC6152] shadow-[4px_4px_0_0_#3D3226]">
-            <div className="bg-white p-6 rounded-2xl border-2 border-[#E8B89A] text-left">
-              <p className="text-sm mb-1 text-center text-[#8A7A65] font-bold">🍴 {displayName}に向いているのは</p>
-              <h2 className="pop-heading text-2xl font-bold text-[#CC6152] text-center mb-4">
-                {CATEGORY_EMOJI[result.id] || '✨'} {result.name}
-              </h2>
+          <div className="bg-white p-6 rounded-2xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
+            <p className="text-sm mb-1 text-center text-[#8A7A65] font-bold">{displayName}に向いているのは</p>
+            <h2 className="pop-heading text-2xl font-bold text-[#CC6152] text-center mb-4">
+              {CATEGORY_EMOJI[result.id] || '✨'} {result.name}
+            </h2>
 
-              {result.trait.map((line, idx) => (
-                <p key={idx} className="text-sm text-[#5C4F42] leading-relaxed">
-                  {line.replace('〇〇さん', displayName)}
-                </p>
-              ))}
-            </div>
+            {result.trait.map((line, idx) => (
+              <p key={idx} className="text-sm text-[#5C4F42] leading-relaxed">
+                {line.replace('〇〇さん', displayName)}
+              </p>
+            ))}
           </div>
 
           <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
