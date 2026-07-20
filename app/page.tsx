@@ -15,7 +15,6 @@ function AdEmbed({ html }: { html: string }) {
 
     container.innerHTML = html;
 
-    // 挿入したHTMLの中にある<script>タグを探して、実行されるように作り直す
     const oldScripts = Array.from(container.querySelectorAll('script'));
     oldScripts.forEach((oldScript) => {
       const newScript = document.createElement('script');
@@ -32,7 +31,6 @@ function AdEmbed({ html }: { html: string }) {
 }
 
 // カテゴリのidごとに、結果画面のタイトル横に添える絵文字です。
-// お好みで自由に変更してください。
 const CATEGORY_EMOJI: { [key: string]: string } = {
   mentality: '🧠',
   biyo: '💆',
@@ -45,48 +43,87 @@ const CATEGORY_EMOJI: { [key: string]: string } = {
   design: '🛋️',
 };
 
-// 5段階の回答ボタンそれぞれに割り当てる、ポップな色の変化です。
-// 左(1)がミント寄り、右(5)がコーラル寄りになるようにしています。
-const SCALE_COLORS = [
-  { bg: '#F2C24E', border: '#F2C24E' }, // 1
-  { bg: '#F2C24E', border: '#F2C24E' }, // 2
-  { bg: '#F2C24E', border: '#F2C24E' }, // 3
-  { bg: '#F2C24E', border: '#F2C24E' }, // 4
-  { bg: '#F2C24E', border: '#F2C24E' }, // 5
-];
+// 参考画像のような「波型の二重線フレーム」を再現する共通パーツです。
+// 内側に白いカード、外側にピンクの波型の縁取りを重ねています。
+function ScallopFrame({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={`relative ${className}`}>
+      {/* 外側：波型に見せるための、ぼかしたピンクの縁 */}
+      <div
+        className="absolute -inset-2 rounded-[2rem] bg-[#F4B9C9]"
+        style={{
+          boxShadow: '0 0 0 3px #F4B9C9, 0 0 0 5px #FFFFFF, 0 0 0 8px #F4B9C9',
+        }}
+      />
+      {/* 内側：本体の白いカード */}
+      <div className="relative bg-white rounded-[1.7rem] border-2 border-[#E89AAE] p-5">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// バナー(旗)型の見出しパーツです。「質問1/11」のような表示に使います。
+function BannerLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex justify-center relative z-10 -mb-3">
+      <div
+        className="bg-[#F2879A] text-white font-bold text-sm px-6 py-2 border-2 border-[#3D3226]"
+        style={{
+          clipPath:
+            'polygon(4% 0%, 96% 0%, 100% 35%, 96% 70%, 100% 100%, 4% 100%, 0% 70%, 4% 35%)',
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// 四隅に散らす、星やキラキラの飾りです。
+function SparkleDecor() {
+  return (
+    <>
+      <span className="absolute top-2 left-3 text-lg text-[#F2C24E]">✨</span>
+      <span className="absolute top-4 right-4 text-sm text-[#F2C24E]">⭐</span>
+      <span className="absolute bottom-3 left-5 text-sm text-[#F2C24E]">⭐</span>
+      <span className="absolute bottom-2 right-3 text-lg text-[#F2C24E]">✨</span>
+    </>
+  );
+}
+
+// 5段階の回答ボタンの色(参考画像と同じ、金色の丸)
+const SCALE_COLOR = { bg: '#E8B84A', border: '#B5892A' };
 
 export default function Home() {
-  // 画面の状態: 'input'(名前入力) → 'question'(質問中) → 'loading'(診断中) → 'result'(結果)
   const [status, setStatus] = useState('input');
   const [name, setName] = useState('');
-
-  // 現在何問目か(0から数える)
   const [currentQuestion, setCurrentQuestion] = useState(0);
-
-  // 各質問の回答(1〜5)を、質問の数だけ保存しておく配列
   const [answers, setAnswers] = useState<(number | null)[]>(
     Array(QUESTIONS.length).fill(null)
   );
-
   const [result, setResult] = useState(JOBS_DATA[0]);
 
   const displayName = name.trim() ? `${name.trim()}さん` : 'あなた';
 
-  // 診断スタート(名前入力画面→質問画面へ)
   const startQuiz = () => {
     setCurrentQuestion(0);
     setAnswers(Array(QUESTIONS.length).fill(null));
     setStatus('question');
   };
 
-  // 質問に回答したときの処理
   const selectAnswer = (score: number) => {
     const newAnswers = [...answers];
     newAnswers[currentQuestion] = score;
     setAnswers(newAnswers);
   };
 
-  // 「次へ」ボタン
   const goNext = () => {
     if (answers[currentQuestion] === null) {
       alert('選択肢を選んでくださいね。');
@@ -95,21 +132,17 @@ export default function Home() {
     if (currentQuestion < QUESTIONS.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      // 最後の質問だった場合、集計して結果を出す
       calculateResult();
     }
   };
 
-  // 「戻る」ボタン
   const goBack = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
     }
   };
 
-  // 集計処理
   const calculateResult = () => {
-    // 各カテゴリの得点合計と、登場回数を集計するための入れ物
     const scoreMap: { [key: string]: number } = {};
     const countMap: { [key: string]: number } = {};
     JOBS_DATA.forEach((job) => {
@@ -125,17 +158,11 @@ export default function Home() {
       });
     });
 
-    // 「合計点」ではなく「平均点」で比較する
-    // (質問への登場回数がカテゴリごとに違うため、合計点だと
-    //  登場回数の多いカテゴリが不公平に有利になってしまうのを防ぐ)
     const averages = JOBS_DATA.map((job) => {
       const average = countMap[job.id] > 0 ? scoreMap[job.id] / countMap[job.id] : 0;
       return { job, average: Math.round(average * 1000) / 1000 };
     });
     const topAverage = Math.max(...averages.map((a) => a.average));
-
-    // 同点(一番高い平均点のカテゴリが複数)だった場合、
-    // 常に同じカテゴリに偏らないよう、その中からランダムに選ぶ
     const topCandidates = averages.filter((a) => a.average === topAverage);
     const topJob =
       topCandidates[Math.floor(Math.random() * topCandidates.length)].job;
@@ -151,28 +178,26 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#E8D3C7] text-[#4A3F35] p-6 flex justify-center relative overflow-hidden">
-      {/* 背景の、ふんわりした色つきのにじみ装飾 */}
-      <div className="pointer-events-none absolute -top-16 -left-16 w-56 h-56 rounded-full bg-[#DE94B0]/20 blur-3xl" />
-      <div className="pointer-events-none absolute top-24 -right-20 w-64 h-64 rounded-full bg-[#CC6152]/15 blur-3xl" />
-      <div className="pointer-events-none absolute bottom-0 left-1/3 w-48 h-48 rounded-full bg-[#F2C24E]/20 blur-3xl" />
-
+    <div className="min-h-screen bg-[#F7E3DB] text-[#4A3F35] p-6 flex justify-center relative overflow-hidden">
       {/* ① 名前入力画面 */}
       {status === 'input' && (
-        <div className="w-full max-w-md space-y-4 relative">
-          <img
-            src="/ads/top.png"
-            alt="仕事＆資格診断"
-            className="w-48 mx-auto"
-          />
-          <h1 className="pop-heading text-xl font-bold text-center text-[#C1685C]">
-            あなたに向いている<br />資格診断
-          </h1>
-          <p className="text-sm text-[#5C4F42] font-bold text-center">
-            ✨ AI時代でも必要とされる、あなたの資質を診断します ✨
-          </p>
+        <div className="w-full max-w-md space-y-5 relative pt-2">
+          <ScallopFrame>
+            <SparkleDecor />
+            <h1 className="pop-heading text-2xl font-bold text-center text-[#CC6152] leading-snug">
+              あなたに向いている<br />仕事＆資格診断
+            </h1>
+            <p className="text-sm text-[#8A7A65] font-bold text-center mt-2">
+              AI時代でも必要とされる、<br />あなたの資質を診断します
+            </p>
+            <img
+              src="/ads/top.png"
+              alt="仕事＆資格診断"
+              className="w-40 mx-auto mt-3"
+            />
+          </ScallopFrame>
 
-          <label className="text-sm text-[#8A7A65] font-bold block pt-2">
+          <label className="text-sm text-[#8A7A65] font-bold block pt-1">
             お名前（ニックネームでもOK・空欄でも診断できます）
           </label>
           <input
@@ -199,23 +224,19 @@ export default function Home() {
 
       {/* ② 質問画面 */}
       {status === 'question' && (
-        <div className="w-full max-w-md space-y-4 pt-4 relative">
-          <img
-            src={`/ads/q${currentQuestion + 1}.png`}
-            alt={`質問${currentQuestion + 1}`}
-            className="w-48 mx-auto"
-          />
-          <p className="text-sm text-[#CC6152] font-bold text-center">
+        <div className="w-full max-w-md space-y-4 pt-8 relative">
+          <BannerLabel>
             質問 {currentQuestion + 1} / {QUESTIONS.length}
-          </p>
+          </BannerLabel>
 
-          <div className="bg-white p-6 rounded-2xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226]">
-            <p className="text-base text-[#4A3F35] leading-relaxed text-center font-medium">
+          <ScallopFrame>
+            <SparkleDecor />
+            <p className="text-base text-[#4A3F35] leading-relaxed text-center font-bold pt-2">
               {QUESTIONS[currentQuestion].text}
             </p>
-          </div>
+          </ScallopFrame>
 
-          <div className="flex justify-between items-center px-1">
+          <div className="flex justify-between items-center px-1 pt-1">
             <span className="text-xs text-[#A69885] font-bold">当てはまらない</span>
             <span className="text-xs text-[#A69885] font-bold">どちらとも言えない</span>
             <span className="text-xs text-[#A69885] font-bold">当てはまる</span>
@@ -229,8 +250,8 @@ export default function Home() {
                   key={score}
                   onClick={() => selectAnswer(score)}
                   style={{
-                    backgroundColor: isSelected ? '#E8B84A' : '#FFFFFF',
-                    borderColor: isSelected ? '#B5892A' : '#D9C8AE',
+                    backgroundColor: isSelected ? SCALE_COLOR.bg : '#FFFFFF',
+                    borderColor: isSelected ? SCALE_COLOR.border : '#D9C8AE',
                   }}
                   className={`flex-1 aspect-square rounded-full border-2 font-bold text-lg transition-all ${
                     isSelected
@@ -244,7 +265,13 @@ export default function Home() {
             })}
           </div>
 
-          <div className="flex gap-3 pt-4">
+          <img
+            src={`/ads/q${currentQuestion + 1}.png`}
+            alt={`質問${currentQuestion + 1}`}
+            className="w-40 mx-auto pt-2"
+          />
+
+          <div className="flex gap-3 pt-2">
             {currentQuestion > 0 && (
               <button
                 onClick={goBack}
@@ -280,24 +307,25 @@ export default function Home() {
 
       {/* ④ 結果画面 */}
       {status === 'result' && (
-        <div className="w-full max-w-sm space-y-4 pt-6 text-center relative">
-          <img
-            src="/ads/result.png"
-            alt="診断結果"
-            className="w-48 mx-auto"
-          />
-          <div className="bg-white p-6 rounded-2xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
-            <p className="text-sm mb-1 text-center text-[#8A7A65] font-bold">{displayName}に向いているのは</p>
-            <h2 className="pop-heading text-2xl font-bold text-[#CC6152] text-center mb-4">
+        <div className="w-full max-w-sm space-y-5 pt-8 text-center relative">
+          <BannerLabel>🍴 {displayName}に向いているのは</BannerLabel>
+
+          <ScallopFrame>
+            <SparkleDecor />
+            <h2 className="pop-heading text-2xl font-bold text-[#CC6152] text-center mb-3 pt-1">
               {CATEGORY_EMOJI[result.id] || '✨'} {result.name}
             </h2>
-
+            <img
+              src="/ads/result.png"
+              alt="診断結果"
+              className="w-36 mx-auto mb-3"
+            />
             {result.trait.map((line, idx) => (
-              <p key={idx} className="text-sm text-[#5C4F42] leading-relaxed">
+              <p key={idx} className="text-sm text-[#5C4F42] leading-relaxed text-left">
                 {line.replace('〇〇さん', displayName)}
               </p>
             ))}
-          </div>
+          </ScallopFrame>
 
           <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
             <p className="text-sm text-[#5C4F42] leading-relaxed mb-2">
@@ -312,7 +340,7 @@ export default function Home() {
 
           <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
             <p className="text-sm text-[#5C4F42] leading-relaxed mb-2 font-bold">
-              {result.name}には、こんな資格があります。
+              🥄 {result.name}には、こんな資格があります。 🥄
             </p>
             <p className="text-sm text-[#5C4F42] leading-relaxed">
               {result.qualifications.map((q) => `・${q}`).join('\n')}
@@ -341,7 +369,6 @@ export default function Home() {
             <p className="text-xs text-[#A69885] mt-2">1日30分の学習でOK</p>
           </div>
 
-          {/* サブリンク：診断結果にピンとこなかった人向けの受け皿 */}
           {(OTHER_JOBS_LINK.htmlCode || OTHER_JOBS_LINK.link) && (
             <div className="pt-1">
               {OTHER_JOBS_LINK.htmlCode ? (
