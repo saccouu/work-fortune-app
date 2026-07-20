@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={{ backgroundColor: '#F7E3DB' }}>{children}</body>
+      <body style={{ backgroundColor: '#F7E3DB', overscrollBehaviorY: 'none' }}>{children}</body>
     </html>
   )
 }
