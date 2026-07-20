@@ -181,43 +181,35 @@ export default function Home() {
     <div className="min-h-screen bg-[#F7E3DB] text-[#4A3F35] p-6 flex justify-center relative overflow-hidden">
       {/* ① 名前入力画面 */}
       {status === 'input' && (
-        <div className="w-full max-w-md space-y-5 relative pt-2">
-          <ScallopFrame>
-            <SparkleDecor />
-            <h1 className="pop-heading text-2xl font-bold text-center text-[#CC6152] leading-snug">
-              あなたに向いている<br />仕事＆資格診断
-            </h1>
-            <p className="text-sm text-[#8A7A65] font-bold text-center mt-2">
-              AI時代でも必要とされる、<br />あなたの資質を診断します
-            </p>
-            <img
-              src="/ads/top.png"
-              alt="仕事＆資格診断"
-              className="w-40 mx-auto mt-3"
-            />
-          </ScallopFrame>
-
-          <label className="text-sm text-[#8A7A65] font-bold block pt-1">
-            お名前（ニックネームでもOK・空欄でも診断できます）
-          </label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="例：はなこ"
-            className="w-full p-4 bg-white border-2 border-[#D9C8AE] rounded-2xl placeholder-[#B5A48C] text-[#4A3F35]"
+        <div
+          className="w-full max-w-md relative mx-auto"
+          style={{ aspectRatio: '454 / 781' }}
+        >
+          {/* 背景：全体デザイン画像(タイトル・イラスト・メモ帳の余白まで描かれています) */}
+          <img
+            src="/ads/top-full.png"
+            alt="あなたにピッタリの資格診断"
+            className="absolute inset-0 w-full h-full object-contain"
           />
 
-          <div className="relative">
+          {/* 前景：画像内の「メモ帳」の余白部分に、実際の入力欄・ボタンを重ねて配置 */}
+          <div
+            className="absolute flex flex-col justify-center gap-3 px-[9%]"
+            style={{ top: '65%', bottom: '6%', left: 0, right: 0 }}
+          >
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="お名前（ニックネームでもOK）"
+              className="w-full p-3 bg-white/90 border border-[#D9C8AE] rounded-xl placeholder-[#B5A48C] text-[#4A3F35] text-sm text-center"
+            />
             <button
               onClick={startQuiz}
-              className="pop-heading w-full py-4 bg-[#CC6152] rounded-2xl font-bold text-lg text-white border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
+              className="pop-heading w-full py-3 bg-[#CC6152] rounded-xl font-bold text-white border-2 border-[#3D3226] shadow-[3px_3px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
             >
               診断スタート 🎯
             </button>
-            <span className="pointer-events-none absolute -right-2 -bottom-2 text-2xl text-white opacity-80">
-              ✨
-            </span>
           </div>
         </div>
       )}
