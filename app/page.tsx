@@ -220,7 +220,7 @@ export default function Home() {
             src={`/ads/q${currentQuestion + 1}-card.png`}
             alt={`質問${currentQuestion + 1}`}
             className="w-full block"
-            style={{ marginBottom: '-250px' }}
+            style={{ marginBottom: '0px' }}
           />
 
           <div className="flex justify-between items-center px-1">
