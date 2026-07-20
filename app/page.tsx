@@ -202,13 +202,13 @@ export default function Home() {
               style={{ fontSize: '16px' }}
               className="w-full p-3 bg-white/90 border border-[#D9C8AE] rounded-xl placeholder-[#B5A48C] text-[#4A3F35] text-center"
             />
-          <p className="text-xs text-[#8A7A65] text-center">ニックネームでも空欄でもOKです</p>　
+            <p className="text-xs text-[#8A7A65] text-center">ニックネームでも空欄でもOKです</p>
             <button
-  onClick={startQuiz}
-  className="pop-heading w-full py-3 bg-[#CC6152] rounded-xl font-bold text-xl text-white border-2 border-[#3D3226] shadow-[3px_3px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
->
-  診断スタート 🎯
-</button>
+              onClick={startQuiz}
+              className="pop-heading w-full py-3 bg-[#CC6152] rounded-xl font-bold text-xl text-white border-2 border-[#3D3226] shadow-[3px_3px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
+            >
+              診断スタート 🎯
+            </button>
           </div>
         </div>
       )}
@@ -216,16 +216,26 @@ export default function Home() {
       {/* ② 質問画面 */}
       {status === 'question' && (
         <div className="w-full max-w-md space-y-4 pt-8 relative">
-          <BannerLabel>
-            質問 {currentQuestion + 1} / {QUESTIONS.length}
-          </BannerLabel>
+          {currentQuestion === 0 ? (
+            <img
+              src="/ads/q1-card.png"
+              alt="質問1"
+              className="w-full block"
+            />
+          ) : (
+            <>
+              <BannerLabel>
+                質問 {currentQuestion + 1} / {QUESTIONS.length}
+              </BannerLabel>
 
-          <ScallopFrame>
-            <SparkleDecor />
-            <p className="text-base text-[#4A3F35] leading-relaxed text-center font-bold pt-2">
-              {QUESTIONS[currentQuestion].text}
-            </p>
-          </ScallopFrame>
+              <ScallopFrame>
+                <SparkleDecor />
+                <p className="text-base text-[#4A3F35] leading-relaxed text-center font-bold pt-2">
+                  {QUESTIONS[currentQuestion].text}
+                </p>
+              </ScallopFrame>
+            </>
+          )}
 
           <div className="flex justify-between items-center px-1 pt-1">
             <span className="text-xs text-[#A69885] font-bold">当てはまらない</span>
@@ -256,11 +266,13 @@ export default function Home() {
             })}
           </div>
 
-          <img
-            src={`/ads/q${currentQuestion + 1}.png`}
-            alt={`質問${currentQuestion + 1}`}
-            className="w-40 mx-auto pt-2"
-          />
+          {currentQuestion > 0 && (
+            <img
+              src={`/ads/q${currentQuestion + 1}.png`}
+              alt={`質問${currentQuestion + 1}`}
+              className="w-40 mx-auto pt-2"
+            />
+          )}
 
           <div className="flex gap-3 pt-2">
             {currentQuestion > 0 && (
