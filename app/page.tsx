@@ -192,7 +192,7 @@ export default function Home() {
           {/* 前景：画像内の「メモ帳」の余白部分に、実際の入力欄・ボタンを重ねて配置 */}
           <div
             className="absolute flex flex-col justify-start gap-2 px-[9%]"
-            style={{ top: '73%', left: 0, right: 0 }}
+            style={{ top: '74%', left: 0, right: 0 }}
           >
             <input
               type="text"
@@ -216,29 +216,14 @@ export default function Home() {
       {/* ② 質問画面 */}
       {status === 'question' && (
         <div className="w-full max-w-md space-y-2 pt-1 relative">
-          {currentQuestion === 0 ? (
-            <img
-              src="/ads/q1-card.png"
-              alt="質問1"
-              className="w-full block"
-              style={{ marginBottom: '-250px' }}
-            />
-          ) : (
-            <>
-              <BannerLabel>
-                質問 {currentQuestion + 1} / {QUESTIONS.length}
-              </BannerLabel>
+          <img
+            src={`/ads/q${currentQuestion + 1}-card.png`}
+            alt={`質問${currentQuestion + 1}`}
+            className="w-full block"
+            style={{ marginBottom: '-250px' }}
+          />
 
-              <ScallopFrame>
-                <SparkleDecor />
-                <p className="text-base text-[#4A3F35] leading-relaxed text-center font-bold pt-2">
-                  {QUESTIONS[currentQuestion].text}
-                </p>
-              </ScallopFrame>
-            </>
-          )}
-
-          <div className="flex justify-between items-center px-1 pt-1">
+          <div className="flex justify-between items-center px-1">
             <span className="flex-1 text-[10px] text-[#A69885] font-bold text-center">当てはまらない</span>
             <span className="flex-1 text-[10px] text-[#A69885] font-bold text-center"></span>
             <span className="flex-1 text-[10px] text-[#A69885] font-bold text-center">どちらとも<br />言えない</span>
@@ -268,10 +253,12 @@ export default function Home() {
               );
             })}
           </div>
-<p className="text-xs text-[#8A7A65] text-center pt-1">
+
+          <p className="text-xs text-[#8A7A65] text-center pt-1">
             数字をタップしてください
           </p>
-          <div className="flex gap-3 pt-6">
+
+          <div className="flex gap-3 pt-2">
             {currentQuestion > 0 && (
               <button
                 onClick={goBack}
