@@ -237,9 +237,9 @@ export default function Home() {
             </>
           )}
 
-          <div className="flex justify-between items-center px-1 pt-1">
+          <div className="flex justify-between items-center px-1 pt-6">
             <span className="text-xs text-[#A69885] font-bold">当てはまらない</span>
-            <span className="text-xs text-[#A69885] font-bold">どちらとも言えない</span>
+            <span className="text-xs text-[#A69885] font-bold">どちらとも<br />言えない</span>
             <span className="text-xs text-[#A69885] font-bold">当てはまる</span>
           </div>
 
