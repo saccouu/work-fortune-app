@@ -28,7 +28,7 @@ export const JOBS_DATA = [
   },
   {
     id: 'biyo',
-    name: '美容・健康・ボディケア系',
+    name: '美容・ボディケア系',
     trait: [
       '〇〇さんは、人と話すのが好きで、体や健康に興味がある人。真面目で人の役に立ちたいという気持ちが強いタイプです。',
     ],
@@ -36,7 +36,7 @@ export const JOBS_DATA = [
       '健康志向の高まりとともに、体のケアに関わる仕事は注目され続けています。実際に手で触れて、相手の状態を見極める仕事は、AIには代わりができません。',
     ],
     qualifications: ['ピラティスインストラクター', '整体セラピスト', 'リンパケアセラピスト'],
-    buttonLabel: '美容・健康・ボディケア系の資格をもっと見てみる',
+    buttonLabel: '美容・ボディケア系の資格をもっと見てみる',
     link: '',
     htmlCode: `<a href="https://px.a8.net/svt/ejp?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.saraschool.net%2Fbiyo%2F" rel="nofollow">美容・健康・ボディケア系の資格をもっと見てみる</a>
 <img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=4B81T1+ARM1OQ+4N6C+BW8O2" alt="">`,
