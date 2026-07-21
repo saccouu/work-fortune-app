@@ -103,6 +103,20 @@ const SCALE_COLOR = { bg: '#E8B84A', border: '#B5892A' };
 
 export default function Home() {
   const [status, setStatus] = useState('input');
+  
+ useEffect(() => {
+    const imagesToPreload = [
+      '/ads/top-full.png',
+      '/ads/loading.png',
+      '/ads/result.png',
+      ...Array.from({ length: 11 }, (_, i) => `/ads/q${i + 1}-card.png`),
+    ];
+    imagesToPreload.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+  
   const [name, setName] = useState('');
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(
@@ -178,7 +192,8 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-dvh bg-[#F7E3DB] text-[#4A3F35] p-6 flex justify-center items-center relative overflow-hidden">
+<div className="min-h-dvh bg-[#F7E3DB] text-[#4A3F35] p-6 flex justify-center items-center relative overflow-hidden animate-[fadeIn_0.4s_ease-in_forwards]" style={{ opacity: 0 }}>
+
       {/* ① 名前入力画面 */}
       {status === 'input' && (
         <div className="w-full max-w-md relative mx-auto">
@@ -220,7 +235,7 @@ export default function Home() {
             src={`/ads/q${currentQuestion + 1}-card.png`}
             alt={`質問${currentQuestion + 1}`}
             className="w-full block"
-            style={{ marginBottom: '-250px' }}
+            style={{ marginBottom: '0px' }}
           />
 
           <div className="flex justify-between items-center px-1">
@@ -294,31 +309,25 @@ export default function Home() {
 
       {/* ④ 結果画面 */}
       {status === 'result' && (
-        <div className="w-full max-w-sm space-y-5 pt-2 text-center relative">
-          {/* 見出し部分：1枚絵(result-full.png)の上に、名前だけコードで重ねます */}
-          <div className="relative w-full">
-            <img
-              src="/ads/result-full.png"
-              alt="診断結果"
-              className="w-full block"
-            />
-            <div className="absolute inset-0 flex flex-col items-center justify-start pt-[8%]">
-              <p className="pop-heading text-lg font-bold text-[#CC6152]">
-                {displayName}に向いているのは
-              </p>
-            </div>
-          </div>
+        <div className="w-full max-w-sm space-y-5 pt-8 text-center relative">
+          <BannerLabel>🍴 {displayName}に向いているのは</BannerLabel>
 
-          <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
-            <h2 className="pop-heading text-2xl font-bold text-[#CC6152] text-center mb-3">
+          <ScallopFrame>
+            <SparkleDecor />
+            <h2 className="pop-heading text-2xl font-bold text-[#CC6152] text-center mb-3 pt-1">
               {CATEGORY_EMOJI[result.id] || '✨'} {result.name}
             </h2>
+            <img
+              src="/ads/result.png"
+              alt="診断結果"
+              className="w-36 mx-auto mb-3"
+            />
             {result.trait.map((line, idx) => (
               <p key={idx} className="text-sm text-[#5C4F42] leading-relaxed text-left">
                 {line.replace('〇〇さん', displayName)}
               </p>
             ))}
-          </div>
+          </ScallopFrame>
 
           <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
             <p className="text-sm text-[#5C4F42] leading-relaxed mb-2">
@@ -403,6 +412,14 @@ export default function Home() {
           }
           to {
             width: 100%;
+          }
+        }
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
           }
         }
         p {
