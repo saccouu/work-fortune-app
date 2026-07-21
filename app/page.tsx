@@ -318,16 +318,17 @@ export default function Home() {
               className="w-full block"
             />
             <div className="absolute inset-0 flex flex-col items-center justify-start pt-[8%]">
-              <p className="pop-heading text-lg font-bold text-[#CC6152]">
-                {displayName}に向いているのは
-              </p>
+  <p className="text-sm font-bold text-[#8A7A65]">
+    {displayName}に向いているのは
+  </p>
+  <p className="pop-heading text-2xl font-bold text-[#CC6152] mt-1">
+    {CATEGORY_EMOJI[result.id] || '✨'} {result.name}
+  </p>
             </div>
           </div>
 
           <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
-            <h2 className="pop-heading text-2xl font-bold text-[#CC6152] text-center mb-3">
-              {CATEGORY_EMOJI[result.id] || '✨'} {result.name}
-            </h2>
+
             {result.trait.map((line, idx) => (
               <p key={idx} className="text-sm text-[#5C4F42] leading-relaxed text-left">
                 {line.replace('〇〇さん', displayName)}
