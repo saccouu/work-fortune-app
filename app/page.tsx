@@ -330,7 +330,7 @@ export default function Home() {
   src="/ads/result.png"
   alt="診断結果"
   className="w-84 mx-auto"
-  style={{ marginBottom: '-42px' }}
+  style={{ marginBottom: '-41px' }}
 />
           <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
             {result.reason.map((line, idx) => (
