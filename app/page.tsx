@@ -192,7 +192,7 @@ export default function Home() {
   };
 
   return (
-<div className="min-h-dvh bg-[#F7E3DB] text-[#4A3F35] p-6 flex justify-center items-start relative overflow-hidden animate-[fadeIn_0.4s_ease-in_forwards]" style={{ opacity: 0 }}>
+<div className="min-h-dvh bg-[#F7E3DB] text-[#4A3F35] p-6 flex justify-center items-center relative overflow-hidden animate-[fadeIn_0.4s_ease-in_forwards]" style={{ opacity: 0 }}>
 
       {/* ① 名前入力画面 */}
       {status === 'input' && (
