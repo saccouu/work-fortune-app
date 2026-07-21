@@ -118,6 +118,13 @@ export default function Home() {
       const img = new Image();
       img.src = src;
     });
+    // 保険:もし3秒経っても先読みが終わらなければ、
+    // 強制的に隠し布を消して、画面が固まらないようにする
+    const timeoutId = setTimeout(() => {
+      setIsReady(true);
+    }, 3000);
+
+    return () => clearTimeout(timeoutId);
   }, []);
   
   const [name, setName] = useState('');
