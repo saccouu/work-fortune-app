@@ -86,18 +86,6 @@ function BannerLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-// 四隅に散らす、星やキラキラの飾りです。
-function SparkleDecor() {
-  return (
-    <>
-      <span className="absolute top-2 left-3 text-lg text-[#F2C24E]">✨</span>
-      <span className="absolute top-4 right-4 text-sm text-[#F2C24E]">⭐</span>
-      <span className="absolute bottom-3 left-5 text-sm text-[#F2C24E]">⭐</span>
-      <span className="absolute bottom-2 right-3 text-lg text-[#F2C24E]">✨</span>
-    </>
-  );
-}
-
 // 5段階の回答ボタンの色(参考画像と同じ、金色の丸)
 const SCALE_COLOR = { bg: '#E8B84A', border: '#B5892A' };
 
