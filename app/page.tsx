@@ -282,12 +282,16 @@ export default function Home() {
                 戻る
               </button>
             )}
-            <button
-              onClick={goNext}
-              className="pop-heading flex-1 py-3 bg-[#CC6152] rounded-2xl font-bold text-white border-2 border-[#3D3226] shadow-[3px_3px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
-            >
-              {currentQuestion < QUESTIONS.length - 1 ? '次へ' : '診断結果を見る'}
-            </button>
+<button
+  onClick={goNext}
+  className={`pop-heading flex-1 py-3 rounded-2xl font-bold border-2 border-[#3D3226] shadow-[3px_3px_0_0_#3D3226] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all ${
+    answers[currentQuestion] !== null
+      ? 'bg-[#CC6152] text-white'
+      : 'bg-white text-[#8A7A65]'
+  }`}
+>
+  {currentQuestion < QUESTIONS.length - 1 ? '次へ' : '診断結果を見る'}
+</button>
           </div>
         </div>
       )}
