@@ -108,7 +108,7 @@ export default function Home() {
     const imagesToPreload = [
       '/ads/top-full.png',
       '/ads/loading.png',
-      '/ads/result-full.png',
+      '/ads/result.png',
       ...Array.from({ length: 11 }, (_, i) => `/ads/q${i + 1}-card.png`),
     ];
     imagesToPreload.forEach((src) => {
@@ -309,32 +309,25 @@ export default function Home() {
 
       {/* ④ 結果画面 */}
       {status === 'result' && (
-        <div className="w-full max-w-sm space-y-5 pt-2 text-center relative">
-          {/* 見出し部分：1枚絵(result-full.png)の上に、名前だけコードで重ねます */}
-          <div className="relative w-full">
+        <div className="w-full max-w-sm space-y-5 pt-8 text-center relative">
+          <BannerLabel>🍴 {displayName}に向いているのは</BannerLabel>
+
+          <ScallopFrame>
+            <SparkleDecor />
+            <h2 className="pop-heading text-2xl font-bold text-[#CC6152] text-center mb-3 pt-1">
+              {CATEGORY_EMOJI[result.id] || '✨'} {result.name}
+            </h2>
             <img
-              src="/ads/result-full.png"
+              src="/ads/result.png"
               alt="診断結果"
-              className="w-full block"
+              className="w-36 mx-auto mb-3"
             />
-            <div className="absolute inset-0 flex flex-col items-center justify-start pt-[8%]">
-  <p className="text-sm font-bold text-[#8A7A65]">
-    {displayName}に向いているのは
-  </p>
-  <p className="pop-heading text-2xl font-bold text-[#CC6152] mt-1">
-    {CATEGORY_EMOJI[result.id] || '✨'} {result.name}
-  </p>
-            </div>
-          </div>
-
-          <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
-
             {result.trait.map((line, idx) => (
               <p key={idx} className="text-sm text-[#5C4F42] leading-relaxed text-left">
                 {line.replace('〇〇さん', displayName)}
               </p>
             ))}
-          </div>
+          </ScallopFrame>
 
           <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
             <p className="text-sm text-[#5C4F42] leading-relaxed mb-2">
