@@ -316,14 +316,10 @@ export default function Home() {
               {CATEGORY_EMOJI[result.id] || '✨'} {result.name}
             </h2>
 
-            {result.trait.map((line, idx) => (
-              <p key={idx} className="text-sm text-[#5C4F42] leading-relaxed text-left">
-                {line.replace('〇〇さん', displayName)}
-              </p>
-            ))}
-                        <p className="text-sm text-[#5C4F42] leading-relaxed mb-2">
-              そんな{displayName}におすすめなのが、{result.name}の資格です。
-            </p>
+<p className="text-sm text-[#5C4F42] leading-relaxed text-left">
+  {result.trait.map((line) => line.replace('〇〇さん', displayName)).join(' ')}
+  そんな{displayName}におすすめなのが、{result.name}の資格です。
+</p>
           </ScallopFrame>
 <img
   src="/ads/result.png"
