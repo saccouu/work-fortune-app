@@ -298,7 +298,7 @@ export default function Home() {
       {/* ④ 結果画面 */}
       {status === 'result' && (
         <div className="w-full max-w-sm space-y-5 pt-8 text-center relative">
-          <BannerLabel>🍴 {displayName}に向いているのは</BannerLabel>
+          <BannerLabel> {displayName}に向いているのは</BannerLabel>
           <ScallopFrame>
             <SparkleDecor />
             <h2 className="pop-heading text-2xl font-bold text-[#CC6152] text-center mb-3 pt-1">
@@ -330,7 +330,7 @@ export default function Home() {
 
           <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
             <p className="text-sm text-[#5C4F42] leading-relaxed mb-2 font-bold">
-              🥄 {result.name}には、こんな資格があります。 🥄
+               {result.name}には、こんな資格があります✨
             </p>
             <p className="text-sm text-[#5C4F42] leading-relaxed">
               {result.qualifications.map((q) => `・${q}`).join('\n')}
