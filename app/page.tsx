@@ -108,7 +108,7 @@ export default function Home() {
     const imagesToPreload = [
       '/ads/top-full.png',
       '/ads/loading.png',
-      '/ads/result.png',
+      '/ads/result-full.png',
       ...Array.from({ length: 11 }, (_, i) => `/ads/q${i + 1}-card.png`),
     ];
     imagesToPreload.forEach((src) => {
