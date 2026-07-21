@@ -103,11 +103,8 @@ const SCALE_COLOR = { bg: '#E8B84A', border: '#B5892A' };
 
 export default function Home() {
   const [status, setStatus] = useState('input');
-  const [isReady, setIsReady] = useState(false);
   
-  // ページを開いた瞬間に、これから使う全部の画像を裏側で先読みしておく
-  // (これにより、画面が切り替わる瞬間の「白いチラつき」を防ぎます)
-  useEffect(() => {
+ useEffect(() => {
     const imagesToPreload = [
       '/ads/top-full.png',
       '/ads/loading.png',
@@ -118,13 +115,6 @@ export default function Home() {
       const img = new Image();
       img.src = src;
     });
-    // 保険:もし3秒経っても先読みが終わらなければ、
-    // 強制的に隠し布を消して、画面が固まらないようにする
-    const timeoutId = setTimeout(() => {
-      setIsReady(true);
-    }, 3000);
-
-    return () => clearTimeout(timeoutId);
   }, []);
   
   const [name, setName] = useState('');
@@ -203,10 +193,7 @@ export default function Home() {
 
   return (
     <div className="min-h-dvh bg-[#F7E3DB] text-[#4A3F35] p-6 flex justify-center items-center relative overflow-hidden">
-      {/* 画像の先読みが終わるまで、画面全体をピンクの背景で覆っておく */}
-      {!isReady && (
-        <div className="fixed inset-0 bg-[#F7E3DB] z-50" />
-      )}
+
       {/* ① 名前入力画面 */}
       {status === 'input' && (
         <div className="w-full max-w-md relative mx-auto">
