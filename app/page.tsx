@@ -103,6 +103,7 @@ const SCALE_COLOR = { bg: '#E8B84A', border: '#B5892A' };
 
 export default function Home() {
   const [status, setStatus] = useState('input');
+  const [isReady, setIsReady] = useState(false);
   
   // ページを開いた瞬間に、これから使う全部の画像を裏側で先読みしておく
   // (これにより、画面が切り替わる瞬間の「白いチラつき」を防ぎます)
