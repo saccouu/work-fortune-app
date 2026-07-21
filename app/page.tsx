@@ -311,11 +311,6 @@ export default function Home() {
       {status === 'result' && (
         <div className="w-full max-w-sm space-y-5 pt-8 text-center relative">
           <BannerLabel>🍴 {displayName}に向いているのは</BannerLabel>
-            <img
-              src="/ads/result.png"
-              alt="診断結果"
-              className="w-36 mx-auto mb-3"
-            />
           <ScallopFrame>
             <SparkleDecor />
             <h2 className="pop-heading text-2xl font-bold text-[#CC6152] text-center mb-3 pt-1">
@@ -331,7 +326,11 @@ export default function Home() {
               そんな{displayName}におすすめなのが、{result.name}の資格です。
             </p>
           </ScallopFrame>
-
+            <img
+              src="/ads/result.png"
+              alt="診断結果"
+              className="w-36 mx-auto mb-3"
+            />
           <div className="bg-white p-6 rounded-3xl border-2 border-[#3D3226] shadow-[4px_4px_0_0_#3D3226] text-left">
             {result.reason.map((line, idx) => (
               <p key={idx} className="text-sm text-[#5C4F42] leading-relaxed">
