@@ -103,6 +103,22 @@ const SCALE_COLOR = { bg: '#E8B84A', border: '#B5892A' };
 
 export default function Home() {
   const [status, setStatus] = useState('input');
+  
+  // ページを開いた瞬間に、これから使う全部の画像を裏側で先読みしておく
+  // (これにより、画面が切り替わる瞬間の「白いチラつき」を防ぎます)
+  useEffect(() => {
+    const imagesToPreload = [
+      '/ads/top-full.png',
+      '/ads/loading.png',
+      '/ads/result.png',
+      ...Array.from({ length: 11 }, (_, i) => `/ads/q${i + 1}-card.png`),
+    ];
+    imagesToPreload.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+  
   const [name, setName] = useState('');
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(
