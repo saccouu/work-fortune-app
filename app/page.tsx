@@ -312,7 +312,6 @@ export default function Home() {
         <div className="w-full max-w-sm space-y-5 pt-8 text-center relative">
           <BannerLabel> {displayName}に向いているのは</BannerLabel>
           <ScallopFrame>
-            <SparkleDecor />
             <h2 className="pop-heading text-2xl font-bold text-[#CC6152] text-center mb-3 pt-1">
               {CATEGORY_EMOJI[result.id] || '✨'} {result.name}
             </h2>
