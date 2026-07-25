@@ -1,44 +1,50 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { QUESTIONS, ResultType } from "../src/data/questions";
 import { RESULTS, AFFILIATE_HTML_CODE } from "../src/data/results";
 import { AdEmbed } from "../src/components/AdEmbed";
 
 type Screen = "quiz" | "result";
 
+function getResultType(answers: ResultType[]): ResultType {
+  const counts: Record<ResultType, number> = { A: 0, B: 0, C: 0, D: 0 };
+  answers.forEach((t) => (counts[t] += 1));
+  let best: ResultType = "A";
+  let bestScore = -1;
+  (Object.keys(counts) as ResultType[]).forEach((key) => {
+    if (counts[key] > bestScore) {
+      bestScore = counts[key];
+      best = key;
+    }
+  });
+  return best;
+}
+
 export default function Page() {
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<ResultType[]>([]);
   const [screen, setScreen] = useState<Screen>("quiz");
-  const [locked, setLocked] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [resultType, setResultType] = useState<ResultType>("A");
 
   const total = QUESTIONS.length;
 
-  // 質問が切り替わった直後は、カーソルが前の選択肢の上に残ったままの状態で
-  // 新しい選択肢が同じ位置に描画されるため、ブラウザが自動でホバー表示を
-  // つけてしまう（＝前の選択が引き継がれたように見える）。
-  // これを防ぐため、切り替え直後の一瞬だけホバー・クリックを無効化し、
-  // マウスが実際に動くか一定時間が経ったら解除する。
-  useEffect(() => {
-    setLocked(true);
-    function unlock() {
-      setLocked(false);
-    }
-    window.addEventListener("mousemove", unlock, { once: true });
-    const timer = setTimeout(unlock, 500);
-    return () => {
-      window.removeEventListener("mousemove", unlock);
-      clearTimeout(timer);
-    };
-  }, [current]);
+  function handleSelect(i: number) {
+    setSelectedIndex(i);
+  }
 
-  function handleAnswer(type: ResultType) {
-    const next = [...answers, type];
-    setAnswers(next);
+  function handleNext() {
+    if (selectedIndex === null) return;
+    const type = QUESTIONS[current].options[selectedIndex].type;
+    const nextAnswers = [...answers, type];
+    setAnswers(nextAnswers);
+    setSelectedIndex(null);
+
     if (current + 1 < total) {
       setCurrent(current + 1);
     } else {
+      setResultType(getResultType(nextAnswers));
       setScreen("result");
     }
   }
@@ -46,21 +52,8 @@ export default function Page() {
   function handleRestart() {
     setCurrent(0);
     setAnswers([]);
+    setSelectedIndex(null);
     setScreen("quiz");
-  }
-
-  function getResultType(): ResultType {
-    const counts: Record<ResultType, number> = { A: 0, B: 0, C: 0, D: 0 };
-    answers.forEach((t) => (counts[t] += 1));
-    let best: ResultType = "A";
-    let bestScore = -1;
-    (Object.keys(counts) as ResultType[]).forEach((key) => {
-      if (counts[key] > bestScore) {
-        bestScore = counts[key];
-        best = key;
-      }
-    });
-    return best;
   }
 
   const litFlames =
@@ -82,13 +75,13 @@ export default function Page() {
               />
             ))}
           </div>
-          <div className="text-[11px] tracking-[0.24em] uppercase text-[#a79885]">
+          <div className="text-[12px] tracking-[0.24em] uppercase text-[#d9bd7c] font-semibold">
             30代からの本気婚活
           </div>
           <h1 className="font-serif-jp text-2xl mt-2 mb-1 tracking-wide text-[#f3ecdf]">
             あなたの婚活タイプ診断
           </h1>
-          <div className="text-[13px] text-[#a79885]">
+          <div className="text-[14px] text-[#cfc3ae]">
             全{total}問・約1分／レイコ先生が本音で見立てるわ
           </div>
         </div>
@@ -115,24 +108,45 @@ export default function Page() {
               <div className="text-lg leading-relaxed mb-6 font-medium">
                 {QUESTIONS[current].text}
               </div>
-              <div
-                className={`flex flex-col gap-2.5 ${
-                  locked ? "pointer-events-none" : ""
+              <div className="flex flex-col gap-2.5 mb-6">
+                {QUESTIONS[current].options.map((opt, i) => {
+                  const isSelected = selectedIndex === i;
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => handleSelect(i)}
+                      className={`text-left rounded-sm px-5 py-4 text-[14.5px] leading-relaxed transition-all border flex items-center gap-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c6a15b] focus-visible:outline-offset-2 ${
+                        isSelected
+                          ? "border-[#c6a15b] bg-[#c6a15b]/10"
+                          : "border-[#c6a15b]/30 hover:border-[#c6a15b]/60 hover:bg-[#c6a15b]/5"
+                      }`}
+                    >
+                      <span
+                        className={`w-4 h-4 rounded-full border flex-shrink-0 ${
+                          isSelected
+                            ? "bg-[#c6a15b] border-[#c6a15b]"
+                            : "border-[#c6a15b]/50"
+                        }`}
+                      />
+                      <span>{opt.text}</span>
+                    </button>
+                  );
+                })}
+              </div>
+              <button
+                onClick={handleNext}
+                disabled={selectedIndex === null}
+                className={`w-full py-4 rounded-sm font-serif-jp text-[15px] tracking-wide transition-all border ${
+                  selectedIndex === null
+                    ? "border-[#c6a15b]/20 text-[#6b6259] cursor-not-allowed"
+                    : "border-[#c6a15b]/50 bg-gradient-to-b from-[#7b2438] to-[#5c1b2b] text-[#f6e9d8] hover:brightness-110"
                 }`}
               >
-                {QUESTIONS[current].options.map((opt, i) => (
-                  <button
-                    key={i}
-                    onClick={() => handleAnswer(opt.type)}
-                    className="text-left border border-[#c6a15b]/30 rounded-sm px-5 py-4 text-[14.5px] leading-relaxed hover:border-[#c6a15b] hover:bg-[#c6a15b]/5 hover:translate-x-0.5 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c6a15b] focus-visible:outline-offset-2"
-                  >
-                    {opt.text}
-                  </button>
-                ))}
-              </div>
+                {current + 1 < total ? "次へ" : "診断結果を見る"}
+              </button>
             </div>
           ) : (
-            <ResultView type={getResultType()} onRestart={handleRestart} />
+            <ResultView type={resultType} onRestart={handleRestart} />
           )}
         </div>
       </div>
@@ -188,7 +202,7 @@ function ResultView({
         ))}
       </div>
       <div className="text-center">
-        <div className="text-[13px] text-[#a79885] mb-4 leading-relaxed">
+        <div className="text-[13px] text-[#cfc3ae] mb-4 leading-relaxed">
           入会するかは、資料を見てから決めればいいのよ。
           <br />
           まずは無料で取り寄せてみなさい。
@@ -196,13 +210,13 @@ function ResultView({
         <div className="[&_a]:block [&_a]:w-full [&_a]:py-4 [&_a]:bg-gradient-to-b [&_a]:from-[#7b2438] [&_a]:to-[#5c1b2b] [&_a]:rounded-sm [&_a]:font-serif-jp [&_a]:text-[#f6e9d8] [&_a]:text-center [&_a]:no-underline [&_a]:border [&_a]:border-[#c6a15b]/50">
           <AdEmbed html={AFFILIATE_HTML_CODE} />
         </div>
-        <p className="text-[11px] text-[#a79885] mt-3 leading-relaxed">
+        <p className="text-[11px] text-[#cfc3ae] mt-3 leading-relaxed">
           ※本ページは提携する結婚相談所比較サービスへのご案内です（広告・PR）
         </p>
       </div>
       <button
         onClick={onRestart}
-        className="block mx-auto mt-6 text-xs text-[#a79885] underline"
+        className="block mx-auto mt-6 text-xs text-[#cfc3ae] underline"
       >
         もう一度診断する
       </button>
