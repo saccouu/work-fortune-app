@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { QUESTIONS, ResultType } from "../src/data/questions";
 import { RESULTS, AFFILIATE_HTML_CODE } from "../src/data/results";
 import { AdEmbed } from "../src/components/AdEmbed";
@@ -11,8 +11,27 @@ export default function Page() {
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<ResultType[]>([]);
   const [screen, setScreen] = useState<Screen>("quiz");
+  const [locked, setLocked] = useState(false);
 
   const total = QUESTIONS.length;
+
+  // 質問が切り替わった直後は、カーソルが前の選択肢の上に残ったままの状態で
+  // 新しい選択肢が同じ位置に描画されるため、ブラウザが自動でホバー表示を
+  // つけてしまう（＝前の選択が引き継がれたように見える）。
+  // これを防ぐため、切り替え直後の一瞬だけホバー・クリックを無効化し、
+  // マウスが実際に動くか一定時間が経ったら解除する。
+  useEffect(() => {
+    setLocked(true);
+    function unlock() {
+      setLocked(false);
+    }
+    window.addEventListener("mousemove", unlock, { once: true });
+    const timer = setTimeout(unlock, 500);
+    return () => {
+      window.removeEventListener("mousemove", unlock);
+      clearTimeout(timer);
+    };
+  }, [current]);
 
   function handleAnswer(type: ResultType) {
     const next = [...answers, type];
@@ -96,7 +115,11 @@ export default function Page() {
               <div className="text-lg leading-relaxed mb-6 font-medium">
                 {QUESTIONS[current].text}
               </div>
-              <div className="flex flex-col gap-2.5">
+              <div
+                className={`flex flex-col gap-2.5 ${
+                  locked ? "pointer-events-none" : ""
+                }`}
+              >
                 {QUESTIONS[current].options.map((opt, i) => (
                   <button
                     key={i}
