@@ -56,25 +56,10 @@ export default function Page() {
     setScreen("quiz");
   }
 
-  const litFlames =
-    screen === "result" ? 5 : Math.round((current / total) * 5);
-
   return (
     <div className="min-h-screen flex items-start justify-center px-4 py-12 bg-[#0b0908]">
       <div className="w-full max-w-lg">
-        <div className="text-center mb-7">
-          <div className="flex justify-center gap-3 h-6 mb-3">
-            {[0, 1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                className={`w-1.5 h-2.5 rounded-full transition-opacity duration-300 ${
-                  i < litFlames
-                    ? "bg-[#c6a15b] opacity-100 shadow-[0_0_7px_rgba(198,161,91,0.85)]"
-                    : "bg-[#c6a15b]/30 opacity-40"
-                }`}
-              />
-            ))}
-          </div>
+        <div className="text-center mb-5 pt-2">
           <div className="text-[12px] tracking-[0.24em] uppercase text-[#d9bd7c] font-semibold">
             30代からの本気婚活
           </div>
