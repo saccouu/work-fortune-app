@@ -1,22 +1,20 @@
-import './globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
+import type { Metadata } from "next";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: 'あなたにピッタリの資格診断',
-  description: '11の質問で分かる、AI時代でも必要とされるあなたの資質を診断します',
-}
+  title: "本気婚活タイプ診断｜レイコ先生",
+  description:
+    "30代からの本気婚活。あなたの婚活タイプを1分で診断します。",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body style={{ backgroundColor: '#F7E3DB' }}>{children}</body>
+    <html lang="ja">
+      <body>{children}</body>
     </html>
-  )
+  );
 }
