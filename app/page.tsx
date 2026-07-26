@@ -67,7 +67,7 @@ export default function Page() {
             あなたの婚活タイプ診断
           </h1>
           <div className="text-[14px] text-[#cfc3ae]">
-            全{total}問・約1分／レイコ先生が本音で見立てるわ
+            全{total}問・約1分
           </div>
         </div>
 
