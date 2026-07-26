@@ -196,7 +196,7 @@ function ResultView({
           <AdEmbed html={AFFILIATE_HTML_CODE} />
         </div>
         <p className="text-[11px] text-[#cfc3ae] mt-3 leading-relaxed">
-          ※本ページは提携する結婚相談所比較サービスへのご案内です（広告・PR）
+          ※結婚相談所比較サービスへのご案内です（PR）
         </p>
       </div>
       <button
