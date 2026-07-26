@@ -44,8 +44,5 @@ export const RESULTS: Record<ResultType, ResultData> = {
   },
 };
 
-// ▼▼▼ ここをASP管理画面で発行された「そのまま貼るコード」に差し替えてください ▼▼▼
-// A8.netなら「素材を選ぶ」→該当プログラム→「素材のコピー」で取得できる
-// <a href="https://px.a8.net/svt/ejp?...">...</a><img ...width="1" height="1".../>
-// の形のコードを、書き換えずにそのまま貼り付けてください。
-export const AFFILIATE_HTML_CODE = `<a href="https://kekkon.kuraveil.jp/" target="_blank" rel="noopener noreferrer">資料請求してみる</a>`;
+// ▼▼▼ ASPから発行された実際の埋め込みコード ▼▼▼
+export const AFFILIATE_HTML_CODE = `<a href="https://px.a8.net/svt/ejp?a8mat=4B5N41+BANUQA+1PJA+2BFH02" target="_blank" rel="nofollow noopener noreferrer">先着で婚活支援金30,000円プレゼント！</a><img border="0" width="1" height="1" src="https://www16.a8.net/0.gif?a8mat=4B5N41+BANUQA+1PJA+2BFH02" alt="" />`;
