@@ -188,7 +188,7 @@ function ResultView({
       </div>
       <div className="text-center">
         <div className="text-[13px] text-[#cfc3ae] mb-4 leading-relaxed">
-          入会するかは、資料を見てから決めれば大丈夫です！まずは無料で資料を取り寄せてみることから始めましょう。
+          結婚相談所でも、料金・サポート・出会い方・会員層など、それぞれ特徴があります。いきなり入会を決める必要はありません。まずは複数の結婚相談所の無料資料を取り寄せて、自分に合いそうなサービスを比較してみましょう。
         </div>
         <div className="[&_a]:block [&_a]:w-full [&_a]:py-4 [&_a]:bg-gradient-to-b [&_a]:from-[#7b2438] [&_a]:to-[#5c1b2b] [&_a]:rounded-sm [&_a]:font-serif-jp [&_a]:text-[#f6e9d8] [&_a]:text-center [&_a]:no-underline [&_a]:border [&_a]:border-[#c6a15b]/50">
           <AdEmbed html={AFFILIATE_HTML_CODE} />
